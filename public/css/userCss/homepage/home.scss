@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: Catamaran,sans-serif;
 }
 a {
   text-decoration: none;
@@ -10,47 +10,8 @@ a {
 
 body {
   background-color: #f1f8fe;
-  nav {
-    width: 100%;
-    height: 70px;
-    // border: 1px solid red;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    background-color: #fff;
-    .logoSec {
-      img {
-        width: 170px;
-      }
-    }
-    .searchSec {
-      width: 600px;
-    }
-    .menuSec {
-      display: flex;
-      gap: 20px;
-      height: 100%;
-      
-
-      .fa-solid {
-        font-size: 20px;
-      }
-      span {
-        font-size: 18px;
-      }
-
-      div{
-        height: 100%;
-        display: flex;
-        gap: 5px;
-        align-items: center;
-        &:hover{
-            color: #379AE6;
-        }
-      }
-    }
-  }
+  font-family: inter;
+  
 }
 
 // swiper
@@ -64,30 +25,112 @@ body {
         }
     }
 }
-
+// ======= Best selling section / product may also like  ============
 .bestSellingSec{
     background-color: #fff;
     margin-top: 15px;
     padding: 15px 0 15px 15px;
+    
 
     h3{
         font-size: 18px;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 
    .bestProducts{
+       display: flex;
+       overflow: hidden;
+       gap: 15px;
        
-        .card{
+    
+        .productCard{
+            align-items: center;
+            width:240px;
+            border: 1px solid #DFE1E7;
+            border-radius: 6px;
+    
             img{
-                width: 150px;
-                height: 130px;
+                width: 240px;
+                height: 170px;
+                border: 1px solid #DFE1E7;
+                border-radius: 6px 0px;
+
             }
+           
+            .cardBody{
+                padding: 16px 10px;
+
+                .title{
+                    display: flex;
+                    justify-content: space-between;
+                    h6{
+                        font-weight: 600;
+                        font-size: 18px;
+                    }
+                }
+                .description{
+                    font-size: 15px; 
+                }
+                .price-buynow{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-left: 10px;
+                    span{
+                        font-size:19px ;
+                        font-weight: 600;
+                    }
+                    button{
+                        width: 92px;
+                        height: 35px;
+                        padding: 0;
+                    }
+                }
+
+            }
+            
         }
    }
 
    
 }
+.bestSellingSec{
+    .bestProducts{
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+.topBrandSec{
+    text-align: center;
+    h3{
+        margin: 20px 0px;
+    }
+    .BrandLogos{
+       display: flex;
+       justify-content: space-around;
+       div{
+            width: 280px;
+            height: 160px;
+            border: 1px solid #DFE1E7;
+            border-radius: 6px;
+            h4{
+                font-size: 20px;
+            }
+        img{
+            width: 150px;
+            height: 100px;
+        }
+       }
+    }
+
+}
+
+
+
+
+
 
 .dummy{
     height:100px ;

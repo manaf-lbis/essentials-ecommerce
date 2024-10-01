@@ -1,0 +1,126 @@
+<html>
+    <%- include('../partials/htmlHead.ejs',{csspath:"/css/userCss/productDetails/productDetails.css"}) %>
+
+    <body>
+    <%- include("../partials/navbar.ejs") %>
+
+    <div class="container">
+
+        <div class="detailsWrapper">
+            <!--================!!!!!! left section product view/addtocart/img !!!!============= --> 
+            <div class="productView">
+
+                <div class="sideBar">
+                    <!-- mini images -->
+                  <div>
+                    <img src="" alt="">
+                  </div>
+
+                </div>
+                <div class="productImgSec">
+                    <div class="imageSec">
+                        <img src="" alt="">
+                    </div>
+                    <div class="addtoCartSec">
+                        <button type="button" class="btn btn-primary">Buy Now</button>
+                        <button type="" class="btn btn-outline-primary">Add to cart +</button>
+                        
+                        <select id="quantityDropdown" class="form-select form-select-sm" aria-label="Small select example">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="1">4</option>
+                            <option value="2">5</option>
+                            <option value="3">6</option>
+                          </select>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+             <!--================= right section /all details================-->
+            <div class="productDetails">
+                <!-- product title -->
+                <h4>Fastrack Revoltt FS1|1.83 Display|BT Calling|Fastcharge|110+ Sports Mode|200+ WatchFaces Smartwatch  (Black Strap, Free Size)</h4>
+                  <!-- ========= Price section =========== -->
+                <div class="line"></div>
+                 <h6 class="text-success">Special Price</h6>
+                 <h3>₹10,000</h3>
+                 <p>inclusive of all taxes</p>
+
+                 <div class="line"></div>
+                 <img src="/assets/images/bluetick.webp" alt=""><span>Free shipping on orders over  ₹500</span><br>
+                 <img src="/assets/images/bluetick.webp" alt=""><span>7 Days Replacement Policy</span>
+                 
+                <div class="line"></div>
+                <!-- ======specificatio Table====== -->
+                <h6 >Specfication</h6>
+                <table>
+                    <tr>
+                        <th>color</th>
+                        <td>red</td>
+                    </tr>
+                </table>
+
+                <div class="line"></div>
+                <h6>About this Product</h6>
+                <ul>
+                    <li>Processor: Intel Core 5 Processor 120U (1.4 GHz Up to 5.0 GHz 12 MB Smart Cache) | Memory: 16 GB LPDDR4X Memory | Storage: 512GB SSD| Intel Iris XE Graphics</li>
+                </ul>
+            </div>
+        </div>
+       <!-- ============Related product Suggession ============= -->
+
+       <!-- ============best selling products ================== -->
+     <div class="bestSellingSec rounded-3">
+        <h3>Best selling Products</h3>
+
+        
+            <div class="bestProducts">
+                <!-- ====card Starts ==== -->
+                <div class="productCard" >
+                    <img class="card-img-top" src="..." alt="Card image cap">
+
+                        <div class="cardBody">
+                            <div class="title">
+                                    <h6>product title</h6>
+                                    <i class="fa-regular fa-heart"></i>
+                            </div>
+                                
+                            <div class="description">
+                                    <p>short description to the  fdghds sdf hdfghproduct</p>
+                            </div>
+
+                            <div class="price-buynow">
+                                <div>
+                                    <span>₹</span><span>10999</span>
+                                </div>
+                                <button type="button" class="btn btn-primary">Buy Now</button>
+                            </div>
+
+                        </div>
+                </div>
+                <!-- =====card ends===== -->
+            </div>
+     
+      </div> 
+      <!-- ============best selling products ================== -->   
+
+
+
+    </div>
+
+
+
+    
+
+
+
+
+    <%- include("../partials/footer.ejs") %>
+    <script src="/public/js/userjs/productDetails.js"></script>
+  </body>
+</html>
