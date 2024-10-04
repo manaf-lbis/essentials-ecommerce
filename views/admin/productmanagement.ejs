@@ -1,0 +1,89 @@
+<html lang="en"></html>
+  <%- include("../partials/htmlHead.ejs",{csspath:"/css/adminCss/productmanagement/productmanagement.css"}) %>
+<body>
+    <!-- navbar -->
+    <%- include('../partials/adminNavbar.ejs') %>
+    
+    <div class="container-fluid wrapper">
+        <!-- left pannel -->
+            <%- include("../partials/adminLeftsidebar.ejs") %>
+
+
+        <div class="mainpanel">
+            <nav class="navbar rounded-3 bg-body-tertiary">
+                <div class="container-fluid">
+                  <h4>Product Management</h4>
+                  <div class="d-flex">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <button class="btn btn-outline-primary ms-3" type="button">Add Product</button>
+                 </div>
+                </div>
+              </nav>
+            <!-- nav ends -->
+
+            <div class="userListing">
+                <div class="header">
+                    <ul>
+                        <li>Image</li>
+                        <li>Product Name</li>
+                        <li>Product ID</li>
+                        <li>Stock </li>
+                        <li>price</li>
+                        <li></li>
+                    </ul>
+                </div>
+                <!-- user listing -->
+                <div class=" userListing list">
+                    <div class=" header user">
+                        <ul>
+                            <li><img src="/assets/images/apple.png" alt=""></li>
+                            <li>apple</li>
+                            <li>115246</li>
+                            <li>500</li>
+                            <li>250</li>
+                            <li> <img src="/assets/images/edit.png" alt=""> <img src="/assets/images/delete1.png" alt=""></li>
+                        </ul>
+                    </div>
+
+                    <div class=" header user">
+                        <ul>
+                            <li><img src="/assets/images/apple.png" alt=""></li>
+                            <li>apple</li>
+                            <li>115246</li>
+                            <li>500</li>
+                            <li>250</li>
+                            <li> <img src="/assets/images/edit.png" alt=""> <img src="/assets/images/delete1.png" alt=""></li>
+                        </ul>
+                    </div>
+
+
+                    <div class=" header user">
+                        <ul>
+                            <li><img src="/assets/images/apple.png" alt=""></li>
+                            <li>apple</li>
+                            <li>115246</li>
+                            <li>500</li>
+                            <li>250</li>
+                            <li> <img src="/assets/images/edit.png" alt=""> <img src="/assets/images/delete1.png" alt=""></li>
+                        </ul>
+                    </div>
+
+
+                   
+                   
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+</div>
+
+    <script src="/js/adminjs/usermanagement.js"></script>
+</body>
+</html>

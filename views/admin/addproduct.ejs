@@ -1,0 +1,69 @@
+<html lang="en"></html>
+  <%- include("../partials/htmlHead.ejs",{csspath:"/css/adminCss/addproduct/addproduct.css"}) %>
+<body>
+    <!-- navbar -->
+    <%- include('../partials/adminNavbar.ejs') %>
+    
+    <div class="container-fluid wrapper">
+        <!-- left pannel -->
+            <%- include("../partials/adminLeftsidebar.ejs") %>
+
+
+        <div class="mainpanel">
+            <nav class="navbar rounded-3 bg-body-tertiary">
+                <div class="container-fluid">
+                  <h4>Add product</h4>
+                </div>
+              </nav>
+            <!-- nav ends -->
+
+            <div class="productDetails row pb-5">
+               <div class="left col-md-5 ">
+                <form>
+                      <label for="exampleInputEmail1">Product Name</label>
+                      <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Product Name">
+                      <label for="exampleInputPassword1">Brand</label>
+                      <input type="text" class="form-control"  placeholder="Brand of the product">
+                      <label for="exampleInputPassword1">Color</label>
+                      <input type="text" class="form-control" placeholder="color">
+                      <label for="exampleInputPassword1">size</label>
+                      <input type="text" class="form-control" placeholder="size">
+                      <select class="form-select" aria-label="Default select example">
+                        <option selected>Category</option>
+                        <option value="1">One</option>
+                      </select>
+                      
+                      <label for="exampleInputPassword1">price</label>
+                      <input type="number" class="form-control" placeholder="Price">
+                      <label for="exampleInputPassword1">Material</label>
+                      <input type="text" class="form-control" placeholder="Material of the product...">
+                      <label for="exampleInputPassword1">About </label>
+                      <input type="text" class="form-control"  placeholder="Detailed description about the product..">
+                    
+                    </form>
+
+
+               </div>
+               <div class="col-md-5  right">
+                
+
+               </div>
+               <div class="w-50">
+                    <button type="button" class="btn btn-danger">Cancel</button>
+                    <button type="button" class="btn btn-success">Add product</button>
+               </div>
+               
+           
+
+                
+               
+        
+            </div>
+
+        </div>
+
+</div>
+
+    <script src="/js/adminjs/usermanagement.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<html lang="en"></html>
+  <%- include("../partials/htmlHead.ejs",{csspath:"/css/adminCss/category/category.css"}) %>
+<body>
+    <!-- navbar -->
+    <%- include('../partials/adminNavbar.ejs') %>
+    
+    <div class="container-fluid wrapper">
+        <!-- left pannel -->
+            <%- include("../partials/adminLeftsidebar.ejs") %>
+
+
+        <div class="mainpanel">
+            <nav class="navbar rounded-3 bg-body-tertiary">
+                <div class="container-fluid">
+                  <h4>Category Management</h4>
+                  <div class="d-flex">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <button id="addCategory" class="btn btn-outline-primary ms-3" type="button">Add Category</button>
+                 </div>
+                </div>
+              </nav>
+            <!-- nav ends -->
+
+            <div class="categoryList ">
+                <div class="header">
+                    <ul>
+                        
+                        <li>Category Name</li>
+                        <li>Description</li>
+                        <li>Products count </li>
+                        
+                        <li></li>
+                    </ul>
+                </div>
+                <!-- user listing -->
+                <div class=" categoryList list">
+                    <div class=" header user">
+                        <ul>
+                           
+                            <li>apple</li>
+                            <li>115246</li>
+                            <li>500</li>
+                           
+                            <li> <img id="edit" src="/assets/images/edit.png" alt="">  <img id="delete" src="/assets/images/delete1.png" alt=""></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+            </div>
+            
+
+            <!--================ popup page==================== -->
+            <div class="categoryPopup">
+                <div class="popupHead">
+                    <h4>Add category</h4>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+
+                </div>
+                <div class="line"></div>
+                <form action="">
+                    <label  class="form-label mb-0 pt-2">Category Name</label>
+                    <input class="form-control form-control-sm " type="text" placeholder="category Name" aria-label=".form-control-sm example">
+                    <label  class="form-label mb-0 pt-2">Description</label>
+                    <input class="form-control form-control-sm" type="text" placeholder="Description" aria-label=".form-control-sm example">
+                    <button type="button" class="btn btn-success">Submit</button>
+                </form>
+                
+
+            </div>
+
+        </div>
+
+</div>
+
+    <script src="/js/adminjs/category.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<html lang="en">
+  <%- include("../partials/htmlHead.ejs",{csspath:"/css/adminCss/usermanagement/usermanagement.css"}) %>
+<body>
+    <!-- navbar -->
+    <%- include('../partials/adminNavbar.ejs') %>
+    
+    <div class="container-fluid wrapper">
+        <!-- left pannel -->
+            <%- include("../partials/adminLeftsidebar.ejs") %>
+
+
+        <div class="mainpanel">
+            <nav class="navbar rounded-3 bg-body-tertiary">
+                <div class="container-fluid">
+                  <h4>User Management</h4>
+                  <div class="d-flex">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <!-- <button class="btn btn-outline-primary ms-3" type="button">Add user +</button> -->
+                 </div>
+                </div>
+              </nav>
+            <!-- nav ends -->
+
+            <div class="userListing">
+                <div class="header">
+                    <ul>
+                        <li>Sl no.</li>
+                        <li>Name</li>
+                        <li>Emial ID</li>
+                        <li>Phone</li>
+                        <li>Status</li>
+                    </ul>
+                </div>
+                <!-- user listing -->
+                <div class=" userListing list">
+                    <div class=" header user">
+                        <ul>
+                            <li>1</li>
+                            <li>Manaf</li>
+                            <li>manaf@gmail.com</li>
+                            <li>7994414155</li>
+                            <li> <button  type="button" class="statusbtn btn btn-danger">Blocked</button></li>
+                        </ul>
+                    </div>
+                    <div class=" header user">
+                        <ul>
+                            <li>1</li>
+                            <li>Manaf</li>
+                            <li>manaf@gmail.com</li>
+                            <li>7994414155</li>
+                            <li> <button  type="button" class="statusbtn btn btn-danger">Blocked</button></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+</div>
+
+    <script src="/js/adminjs/usermanagement.js"></script>
+</body>
+</html>
