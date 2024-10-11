@@ -1,4 +1,7 @@
     <!-- ============nav bar========== -->
+    
+
+
     <nav >
         <div class="logoSec">
            <a href=""> <img src="/assets/images/logo.png" alt=""> </a>
@@ -14,19 +17,31 @@
         </div>
 
         <div class="menuSec">
-            <div >
+            <div class="icon">
                 <i class="fa-solid fa-box-open"></i><span> orders</span>
             </div>
-            <div >
+            <div class="icon">
                 <i class="fa-solid fa-cart-shopping"></i><span> cart (0)</span>
             </div>
-            <div >
-                <i class="fa-solid fa-circle-user"></i><span> Account</span>
+            <div class="icon">
+
+                <!-- Example single danger button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </button>
+                    <ul class="dropdown-menu"> <!-- Changed to <ul> -->
+                        <li><a class="dropdown-item" href="user/profile">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item bg-hover-red " href="/user/logout">Logout</a></li>
+                    </ul>
+                </div>
+                
             </div> 
         </div>
   </nav>
   <div class="forSpacingNav">
 
   </div>
-  
+
 <!-- ===========navbar ends============== -->

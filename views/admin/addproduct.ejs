@@ -1,69 +1,89 @@
-<html lang="en"></html>
-  <%- include("../partials/htmlHead.ejs",{csspath:"/css/adminCss/addproduct/addproduct.css"}) %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/htmlHead.ejs", { csspath: "/css/adminCss/addproduct/addproduct.css" }) %>
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+    <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+</head>
 <body>
-    <!-- navbar -->
+    <!-- Navbar -->
     <%- include('../partials/adminNavbar.ejs') %>
-    
-    <div class="container-fluid wrapper">
-        <!-- left pannel -->
-            <%- include("../partials/adminLeftsidebar.ejs") %>
 
+    <div class="container-fluid wrapper">
+        <!-- Left Panel -->
+        <%- include("../partials/adminLeftsidebar.ejs") %>
 
         <div class="mainpanel">
             <nav class="navbar rounded-3 bg-body-tertiary">
                 <div class="container-fluid">
-                  <h4>Add product</h4>
+                    <h4>Add Product</h4>
                 </div>
-              </nav>
-            <!-- nav ends -->
-
+            </nav>
+            <!-- Nav ends -->
+       <form action="/" method="post">
             <div class="productDetails row pb-5">
-               <div class="left col-md-5 ">
-                <form>
-                      <label for="exampleInputEmail1">Product Name</label>
-                      <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Product Name">
-                      <label for="exampleInputPassword1">Brand</label>
-                      <input type="text" class="form-control"  placeholder="Brand of the product">
-                      <label for="exampleInputPassword1">Color</label>
-                      <input type="text" class="form-control" placeholder="color">
-                      <label for="exampleInputPassword1">size</label>
-                      <input type="text" class="form-control" placeholder="size">
-                      <select class="form-select" aria-label="Default select example">
-                        <option selected>Category</option>
-                        <option value="1">One</option>
-                      </select>
-                      
-                      <label for="exampleInputPassword1">price</label>
-                      <input type="number" class="form-control" placeholder="Price">
-                      <label for="exampleInputPassword1">Material</label>
-                      <input type="text" class="form-control" placeholder="Material of the product...">
-                      <label for="exampleInputPassword1">About </label>
-                      <input type="text" class="form-control"  placeholder="Detailed description about the product..">
-                    
+                <div class="left col-md-5">
+                    <form id="productForm" action="/add-product" method="POST" enctype="multipart/form-data">
+                        <label for="productName">Product Name</label>
+                        <input type="text" class="form-control" name="productName" placeholder="Product Name" required>
+                        <label for="brand">Brand</label>
+                        <input type="text" class="form-control" name="brand" placeholder="Brand of the product" required>
+                        <label for="color">Color</label>
+                        <input type="text" class="form-control" name="color" placeholder="Color" required>
+                        <label for="size">Size</label>
+                        <input type="text" class="form-control" name="size" placeholder="Size" required>
+                        <select class="form-select" name="category" required>
+                            <option selected disabled>Category</option>
+                            <% for(let cat of category){ %>
+                                <option value="<%= cat._Id %>"><%= cat.categoryName %></option>
+                            <% } %>
+                        </select>
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" min="0" name="price" placeholder="Price" required>
+                        <label for="material">Material</label>
+                        <input type="text" class="form-control" name="material" placeholder="Material of the product..." required>
+                        <label for="description">About</label>
+                        <input type="text" class="form-control" name="description" placeholder="Detailed description about the product.." required>
                     </form>
+                </div>
 
+                <!-- Right Column for Image Uploads -->
+                <div class="col-md-5 right">
+                    <label for="productImage1">Upload Image 1</label>
+                    <input type="file" id="productImage1" class="form-control" accept="image/*" onchange="prepareCrop(event, 'imagePreview1', 'cropImage1')">
+                    <div class="image-preview mt-3">
+                        <img id="imagePreview1" src="" alt="Image Preview 1" style="display:none; width:100%; max-height:200px; object-fit:contain;">
+                    </div>
+                    <canvas id="cropImage1" name="cropImage1" style="display:none;"></canvas>
+                    <button type="button" class="btn btn-primary mt-2" onclick="cropImage('cropImage1')">Crop Image 1</button>
 
-               </div>
-               <div class="col-md-5  right">
-                
+                    <label for="productImage2" class="mt-3">Upload Image 2</label>
+                    <input type="file" id="productImage2" class="form-control" accept="image/*" onchange="prepareCrop(event, 'imagePreview2', 'cropImage2')">
+                    <div class="image-preview mt-3">
+                        <img id="imagePreview2" src="" alt="Image Preview 2" style="display:none; width:100%; max-height:200px; object-fit:contain;">
+                    </div>
+                    <canvas id="cropImage2" name="cropImage2" style="display:none;"></canvas>
+                    <button type="button" class="btn btn-primary mt-2" onclick="cropImage('cropImage2')">Crop Image 2</button>
 
-               </div>
-               <div class="w-50">
-                    <button type="button" class="btn btn-danger">Cancel</button>
-                    <button type="button" class="btn btn-success">Add product</button>
-               </div>
-               
-           
+                    <label for="productImage3" class="mt-3">Upload Image 3</label>
+                    <input type="file" id="productImage3" class="form-control" accept="image/*" onchange="prepareCrop(event, 'imagePreview3', 'cropImage3')">
+                    <div class="image-preview mt-3">
+                        <img id="imagePreview3" src="" alt="Image Preview 3" style="display:none; width:100%; max-height:200px; object-fit:contain;">
+                    </div>
+                    <canvas id="cropImage3" name="cropImage3" style="display:none;"></canvas>
+                    <button type="button" class="btn btn-primary mt-2" onclick="cropImage('cropImage3')">Crop Image 3</button>
+                </div>
 
-                
-               
-        
+                <div class="w-50">
+                    <button type="button" class="btn btn-danger" onclick="cancelForm()">Cancel</button>
+                    <button type="submit" class="btn btn-success" onclick="submitProduct()">Add Product</button>
+                </div>
             </div>
+          </form>
 
         </div>
+    </div>
+    <script src="/js/adminjs/addproduct.js"></script>
 
-</div>
-
-    <script src="/js/adminjs/usermanagement.js"></script>
 </body>
 </html>

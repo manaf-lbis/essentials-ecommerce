@@ -1,13 +1,10 @@
-<html lang="en"></html>
-  <%- include("../partials/htmlHead.ejs",{csspath:"/css/adminCss/category/category.css"}) %>
+<html lang="en">
+  <%- include("../partials/htmlHead.ejs", { csspath: "/css/adminCss/category/category.css" }) %>
 <body>
-    <!-- navbar -->
     <%- include('../partials/adminNavbar.ejs') %>
-    
-    <div class="container-fluid wrapper">
-        <!-- left pannel -->
-            <%- include("../partials/adminLeftsidebar.ejs") %>
 
+    <div class="container-fluid wrapper">
+        <%- include("../partials/adminLeftsidebar.ejs") %>
 
         <div class="mainpanel">
             <nav class="navbar rounded-3 bg-body-tertiary">
@@ -22,61 +19,70 @@
                  </div>
                 </div>
               </nav>
-            <!-- nav ends -->
 
-            <div class="categoryList ">
+            <!-- Category List -->
+            <div class="categoryList">
                 <div class="header">
                     <ul>
-                        
                         <li>Category Name</li>
                         <li>Description</li>
-                        <li>Products count </li>
-                        
+                        <li>Products count</li>
                         <li></li>
                     </ul>
                 </div>
-                <!-- user listing -->
-                <div class=" categoryList list">
-                    <div class=" header user">
-                        <ul>
-                           
-                            <li>apple</li>
-                            <li>115246</li>
-                            <li>500</li>
-                           
-                            <li> <img id="edit" src="/assets/images/edit.png" alt="">  <img id="delete" src="/assets/images/delete1.png" alt=""></li>
-                        </ul>
-                    </div>
+                <div class="categoryList list">
+                    
+               <% for(let category of categories){ %>
 
+                   <div class="header user">
+                        <ul>
+                            <li><%=  category.categoryName %>  </li>
+                            <li><%=  category.description %>  </li>
+                            <li>0</li>
+                            <li> 
+                                <img id="edit" src="/assets/images/edit.png" alt="">  
+
+                                <a class="deleteBtn" href="/admin/removeCategory/?id=<%= category._id  %>">
+                                    <img id="delete" src="/assets/images/delete1.png" alt="">
+                                </a>
+                                
+                            </li>
+                        </ul>
+                    </div> 
+               <%  } %>
+                    
 
                 </div>
-
             </div>
-            
 
-            <!--================ popup page==================== -->
+            <!-- Popup for adding category -->
             <div class="categoryPopup">
                 <div class="popupHead">
                     <h4>Add category</h4>
                     <button type="button" class="btn-close" aria-label="Close"></button>
-
                 </div>
                 <div class="line"></div>
-                <form action="">
-                    <label  class="form-label mb-0 pt-2">Category Name</label>
-                    <input class="form-control form-control-sm " type="text" placeholder="category Name" aria-label=".form-control-sm example">
-                    <label  class="form-label mb-0 pt-2">Description</label>
-                    <input class="form-control form-control-sm" type="text" placeholder="Description" aria-label=".form-control-sm example">
-                    <button type="button" class="btn btn-success">Submit</button>
+                <form method="post" action="/admin/category">
+                    <label class="form-label mb-0 pt-2">Category Name</label>
+                    <input name="categoryName" class="form-control form-control-sm" type="text" placeholder="Category Name">
+                    <label class="form-label mb-0 pt-2">Description</label>
+                    <input name="description" class="form-control form-control-sm" type="text" placeholder="Description">
+                    <button id="submitBtn" type="submit" class="btn btn-success">Submit</button>
                 </form>
-                
-
             </div>
 
         </div>
+    </div>
 
-</div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/adminjs/category.js"></script>
+    
+    <!-- Inline script for showing SweetAlert -->
+    <% if (typeof alert !== 'undefined' && alert.trim() !== '') { %>
+        <script>
+            callSweetAlert('<%= alert %>');
+        </script>
+    <% } %>
+
 </body>
 </html>

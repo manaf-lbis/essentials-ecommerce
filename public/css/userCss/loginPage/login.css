@@ -51,9 +51,21 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+.Container .rightSection .googleLogin div {
+  border: 1px solid #B9B9B9;
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 .Container .rightSection .googleLogin img {
   width: 32px;
+  padding: 8px 0px;
 }
 .Container .rightSection .googleLogin .googleimg {
   width: 25px;
@@ -84,6 +96,12 @@ body {
 .separator span {
   font-weight: bold;
   color: #333;
+}
+
+.errorStyle {
+  color: red;
+  margin-left: 10px;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 768px) {

@@ -21,28 +21,71 @@ body {
   justify-content: space-between;
   gap: 15px;
 }
-.wrapper .mainpanel {
+
+.mainpanel {
   flex-grow: 1;
   border-radius: 8px;
   background-color: #fff;
 }
-.wrapper .productDetails {
+
+.productDetails {
   margin-top: 15px;
   width: 100%;
   display: flex;
   justify-content: center;
   padding-left: 25px;
 }
-.wrapper .productDetails input, .wrapper .productDetails select {
+.productDetails input,
+.productDetails select {
   background-color: #F4FAF8;
   outline: 1px solid #D0FFEF;
 }
-.wrapper .productDetails .left {
+
+.left {
   padding: 15px;
 }
-.wrapper .productDetails .left label, .wrapper .productDetails .left select {
+.left label,
+.left select {
   margin-top: 10px;
 }
-.wrapper .productDetails .right {
-  height: 50px;
+
+.right {
+  padding: 15px;
+}
+.right .image-preview {
+  border: 1px solid #d0ffef;
+  padding: 10px;
+  background-color: #f4faf8;
+}
+.right label {
+  margin-top: 10px;
+  display: block;
+}
+.right input[type=file] {
+  margin-top: 10px;
+}
+
+.imageUpload {
+  position: relative;
+}
+
+.imagePreview {
+  position: relative;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 200px; /* Adjust as needed */
+}
+
+.imagePreview img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#removeImage {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
 }/*# sourceMappingURL=addproduct.css.map */
