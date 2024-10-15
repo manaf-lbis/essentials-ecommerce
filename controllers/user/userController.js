@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const User = require('../../models/userSchema');
 const session = require('express-session');
+const passport = require('../../config/passport');
 
 
 
@@ -33,6 +34,7 @@ const loadHome = (req, res) => {
   return res.render('user/home');
 };
 
+// <<<====login page rendering===>>>
 const userLogout = (req,res)=>{
   try {
     
@@ -41,16 +43,13 @@ const userLogout = (req,res)=>{
         console.log('session destruction error');
         return res.render('user/pagenotFound')
       }
-      return res.redirect('/user')
+      return res.redirect('/')
     })
 
   } catch (error) {
     console.log(error)
   }
 }
-
-
-
 
 
 // <====random otp  generating=====>
@@ -165,7 +164,7 @@ const verifyLogin = async (req, res) => {
       } 
       
       req.session.userId = user._id;
-      return res.redirect('/user/home');
+      return res.redirect('/home');
   }
   catch(error){
     console.error(`login Faild ${error}`);
@@ -196,7 +195,10 @@ const resentotp = async (req, res) => {
 };
 
 
-
+//google auth
+const googleAuth =(req,res)=>{
+  res.redirect('/home');
+}
 
 
 
@@ -210,5 +212,6 @@ module.exports = {
   loadHome,
   verifyLogin,
   userLogout,
+  googleAuth,
 
 };

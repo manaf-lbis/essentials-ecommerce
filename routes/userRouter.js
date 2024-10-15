@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('../config/passport')
 const userController = require('../controllers/user/userController');
 const userMiddleware = require('../middlewares/usersMiddleware')
 
 
+// google auth 
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
+router.get('/google/callback',passport.authenticate('google', { failureRedirect: '/user' }),userController.googleAuth)
+
+
+//user route
 router.get('/', userMiddleware.isNotAuthenticated, userController.loadLoginpage);
 router.get('/signup', userMiddleware.isNotAuthenticated, userController.loadSignupPage);
 router.post('/signup', userController.addNewUser);

@@ -13,6 +13,7 @@ const adminRouter = require('./routes/adminRouter');
 // Connect to the database
 db();
 
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,12 +25,18 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
+    cookie: { 
       secure: false,
       maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
+
+app.get('/product',(req,res)=>{
+  res.render('user/productDetails');
+
+})
+
 
 // Middleware to prevent caching
 app.use((req, res, next) => {
@@ -46,7 +53,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 // user router
-app.use('/user', userRouter);
+app.use('/', userRouter);
 
 // admin Router
 app.use('/admin', adminRouter);
@@ -54,17 +61,10 @@ app.use('/admin', adminRouter);
 
 
 // <========= Google authentication routes
+app.use('/auth',userRouter)
 
-app.get('/auth/google',passport.authenticate('google', { scope: ['profile', 'email'] }));
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/user' }),
-  (req, res) => {
-    res.redirect('/user/home');
-  }
-);
 
-// app.use('*', userRouter);
+
 
 
 app.listen(process.env.PORT, () =>

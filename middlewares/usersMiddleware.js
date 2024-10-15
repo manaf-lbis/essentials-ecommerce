@@ -4,14 +4,14 @@ const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated() || req.session.userId) {
         return next(); 
     }
-    return res.redirect('/user'); 
+    return res.redirect('/'); 
 };
 
 const isNotAuthenticated = (req, res, next) => {
     if (!req.isAuthenticated() && !req.session.userId) {
         return next(); 
     }
-    return res.redirect('/user/home'); 
+    return res.redirect('/home'); 
 };
 
 

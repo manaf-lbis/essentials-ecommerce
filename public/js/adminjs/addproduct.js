@@ -29,30 +29,27 @@ if (input.files && input.files[0]) {
 
     reader.readAsDataURL(input.files[0]);
 } else {
-    imagePreview.style.display = 'none'; // Hide the image preview if no file is selected
+    imagePreview.style.display = 'none'; 
 }
 }
 
 function cropImage(canvasId) {
+    const canvas = document.getElementById(canvasId);
 
-const canvas = document.getElementById(canvasId);
+    if (cropper) {
+        const croppedCanvas = cropper.getCroppedCanvas();
 
-if (cropper) {
-    const croppedCanvas = cropper.getCroppedCanvas();
+        // Convert the cropped image to a base64 data URL
+        const croppedImageData = croppedCanvas.toDataURL('image/jpeg');
 
-    // Draw the cropped image on the canvas
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear the previous content
-    canvas.getContext('2d').drawImage(croppedCanvas, 0, 0);
-    
-    // Convert the canvas to a data URL and assign it to a hidden input
-    const croppedImageData = croppedCanvas.toDataURL('image/jpeg');
-    const hiddenInput = document.createElement("input");
-    hiddenInput.type = "hidden";
-    hiddenInput.name = canvasId;
-    hiddenInput.value = croppedImageData;
+        // Assign the cropped image data to a hidden input
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "croppedImage"; // This name should match what you expect in the backend
+        hiddenInput.value = croppedImageData;
 
-    document.getElementById("productForm").appendChild(hiddenInput);
-} else {
-    console.error('Cropper is not initialized');
-}
+        document.getElementById("productForm").appendChild(hiddenInput);
+    } else {
+        console.error('Cropper is not initialized');
+    }
 }

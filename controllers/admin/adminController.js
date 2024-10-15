@@ -17,8 +17,10 @@ const loadLogin = (req, res) => {
 const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email, isAdmin: true });
-
+    console.log(email,password);
+    
+    const user = await User.findOne({ email,isAdmin: true });
+  
     if (!user) {
       return res
         .status(403)

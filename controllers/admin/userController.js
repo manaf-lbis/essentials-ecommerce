@@ -20,12 +20,6 @@ const getUsers = async (req,res)=>{
 
         
 
-         
-     
-        
-        
-        
-
         // console.log(searchQuery);
         const userData = await User.find({
             isAdmin:false,
