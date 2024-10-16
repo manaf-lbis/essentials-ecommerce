@@ -11,11 +11,15 @@ const producSchema = new Schema({
     required: true,
     unique: true,
   },
-  productDescription: {
+  description: {
     type: String,
     required: true,
   },
   brand: {
+    type: String,
+    required: true,
+  },
+  size: {
     type: String,
     required: true,
   },
