@@ -20,8 +20,9 @@
                 </div>
             </nav>
             <!-- Nav ends -->
-       <form id="form" action="" method="post">
+       <form id="form" action="" method="post" enctype="multipart/form-data">
             <div class="productDetails row pb-5">
+                <div id="categoryErr" class="validate-err"><%=message%></div>
                 <div class="left col-md-5">
                     <!-- <form id="productForm" action="/add-product" method="POST" enctype="multipart/form-data"> -->
                         <label for="productName">Product Name</label>
@@ -39,6 +40,10 @@
                         <label for="size">Size</label>
                         <input id="size" type="text" class="form-control" name="size" placeholder="Size" >
                         <div id="sizeErr" class="validate-err"></div>
+
+                        <label for="size">Quantity</label>
+                        <input id="quantity" type="number" class="form-control" name="quantity" placeholder="quantity" >
+                        <div id="quantityErr" class="validate-err"></div>
 
                         <select id="category" class="form-select" name="category" >
                             <option value="" selected disabled>Category</option>
@@ -108,6 +113,8 @@
 
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/adminjs/addproduct.js"></script>
 
 </body>

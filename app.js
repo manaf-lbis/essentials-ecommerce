@@ -12,7 +12,7 @@ const adminRouter = require('./routes/adminRouter');
 
 // Connect to the database
 db();
-
+  
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,10 +32,10 @@ app.use(
   })
 );
 
-app.get('/product',(req,res)=>{
-  res.render('user/productDetails');
+// app.get('/product',(req,res)=>{
+//   res.render('user/productDetails');
 
-})
+// })
 
 
 // Middleware to prevent caching

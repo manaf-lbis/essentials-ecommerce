@@ -36,7 +36,7 @@ function prepareCrop(event, previewId) {
     }
 }
 
-let croppedImages = {};
+let croppedImages = [];
 // Function to crop the image and display the result
 function cropImage(canvasId, previewId) {
     const croppedImagePreview = document.getElementById(previewId);
@@ -53,7 +53,7 @@ function cropImage(canvasId, previewId) {
             const croppedImageData = croppedCanvas.toDataURL('image/jpeg');
 
             croppedCanvas.toBlob(function (blob) {
-                croppedImages[previewId] = blob; // Store the blob for this image
+                croppedImages.push(blob); // Store the blob in the array instead of an object
                 console.log('Cropped image stored:', blob);
             }, 'image/jpeg');
 
@@ -97,6 +97,7 @@ submitBtn.addEventListener('click', (e) => {
     const sellingPrice = document.getElementById('sellingPrice').value;
     const material = document.getElementById('material').value;
     const description = document.getElementById('description').value;
+    const quantity = document.getElementById('quantity').value;
     const image1 = document.getElementById('imagePreview1').src;
     const image2 = document.getElementById('imagePreview2').src;
     const image3 = document.getElementById('imagePreview3').src;
@@ -139,7 +140,13 @@ submitBtn.addEventListener('click', (e) => {
         document.getElementById('priceErr1').innerHTML =
             'Price shoul be greater than 0';
     }
-    console.log(typeof regularPrice);
+
+    if (quantity <= 0) {
+        validatation = false;
+        document.getElementById('quantityErr').innerHTML =
+            'Quantity should be minimum 1';
+    }
+
 
     if (sellingPrice <= 0 || Number(sellingPrice) > Number(regularPrice)) {
         validatation = false;
@@ -172,15 +179,15 @@ submitBtn.addEventListener('click', (e) => {
         validatation = false;
         document.getElementById('productImage3Err').innerHTML = 'Upload image';
     }
- submitDataToServer();
+
     if (validatation) {
-       
+        submitDataToServer();
     }
 
     function submitDataToServer() {
         const formData = new FormData();
 
-        // text datas
+        // Append text data
         formData.append('productName', productName);
         formData.append('brand', brandName);
         formData.append('color', color);
@@ -190,24 +197,61 @@ submitBtn.addEventListener('click', (e) => {
         formData.append('sellingPrice', sellingPrice);
         formData.append('material', material);
         formData.append('description', description);
+        formData.append('quantity', quantity);
 
-        //images
-        for (let image in croppedImages) {
-            const imageBlob = croppedImages[image];
-            formData.append(image, imageBlob, `${image}.png`);
+        // Append cropped images to FormData
+        for (let i = 0; i < croppedImages.length; i++) {
+            const imageBlob = croppedImages[i];
+            formData.append('images', imageBlob, `image_${i}.png`); // Ensure the 'images' field name matches multer config
         }
 
-        //  Data sending to server
-
+        // Send data to the server
         fetch('/admin/addProduct', {
             method: 'POST',
-            body:formData,
+            body: formData,
         })
-            .then((sucess) => {
-                console.log('sucess');
+            .then((success) => {
+
+                const title = "Success";
+                const text = "Product added sucessfull";
+                const icon = "success";
+
+                const result = showAlert(title, text, icon)
+
+                setTimeout(()=>{
+                    window.location.href = '/admin/addproduct';
+                },2500)
+
             })
             .catch((err) => {
-                console.log(err);
+
+                console.log('Product data sending error:', err);
+
+                const title = "Failed to add product";
+                const text = "Somthing went wrong";
+                const icon = "error";
+
+                const result = showAlert(title, text, icon)
+
+                setTimeout(()=>{
+                    window.location.href = '/admin/addproduct';
+                },2500)
             });
+
+
     }
+
 });
+
+
+function showAlert(title, text, icon) {
+
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon
+        })
+        return true
+    
+
+}

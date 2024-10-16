@@ -6,11 +6,6 @@ const producSchema = new Schema({
     type: String,
     required: true,
   },
-  productId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   description: {
     type: String,
     required: true,
@@ -42,7 +37,6 @@ const producSchema = new Schema({
   offer: {
     type: Schema.Types.ObjectId,
     ref: 'Offer',
-    default: 0,
   },
   color: {
     type: String,
@@ -62,6 +56,7 @@ const producSchema = new Schema({
   status: {
     type: String,
     enum: ['Available', 'Out of Stock'],
+    default:'Available'
   },
 });
 
