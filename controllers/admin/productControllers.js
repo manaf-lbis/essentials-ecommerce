@@ -1,9 +1,47 @@
 const Product = require('../../models/productSchema');
 const Category = require('../../models/categorySchema');
+const path = require('path');
 
 
-const products = (req, res) => {
-  res.render('admin/productmanagement');
+const products = async (req, res) => {
+
+  try {
+    const searchQuery = req.query.search ?? '';
+    let currentPage = Number(req.query.pageReq) || 1;
+
+
+    const limit = 5;
+    const skip = (currentPage - 1) * limit;
+
+    const count = await Product.countDocuments({
+      $or: [
+        { 'productName': { $regex: '.*' + searchQuery + '.*', $options: 'i' } },
+        { 'brand': { $regex: '.*' + searchQuery + '.*', $options: 'i' } }
+
+      ]
+    });
+
+    currentPage = currentPage > (count / limit) ? currentPage - 1 : currentPage;
+
+    const products = await Product.find({
+      $or: [
+        { 'productName': { $regex: '.*' + searchQuery + '.*', $options: 'i' } },
+        { 'brand': { $regex: '.*' + searchQuery + '.*', $options: 'i' } }
+
+      ]
+    }).skip(skip).limit(limit);
+
+
+    res.render('admin/productmanagement', { products, currentPage, searchQuery });
+
+
+  } catch (error) {
+
+    console.log(error);
+
+
+
+  }
 };
 
 
@@ -26,12 +64,12 @@ const addProduct = async (req, res) => {
     }
 
     const {
-      productName,brand,color,size,category,regularPrice,
-      sellingPrice,material,description,quantity
+      productName, brand, color, size, category, regularPrice,
+      sellingPrice, material, description, quantity
     } = req.body;
 
 
-    const imagesArray = req.files.map(file => file.filename);
+    const imagesArray = req.files.map(file => `/uploads/${file.filename}`);
 
     // Create a new product document
     const product = new Product({
@@ -58,9 +96,67 @@ const addProduct = async (req, res) => {
 
 
 
+const removeProduct = async (req, res) => {
+  try {
+    const _id = req.params.id;
+
+    const result = await Product.updateOne({ _id }, { isBlocked: true });
+    res.redirect('/admin/products')
+
+  } catch (error) {
+
+    console.log(error);
+  }
+
+};
+
+
+const editProduct = async (req, res) => {
+
+  try {
+    const _id = req.params.id;
+    const dbResult = await Product.findOne({ _id });
+
+    res.render('admin/editproduct', { dbResult })
+
+  } catch (error) {
+
+    console.log(error);
+  }
+}
+
+
+const updateProduct = async (req,res)=>{
+  try {
+
+    const {productName,brand,color,size,quantity,
+      regularPrice,sellingPrice,material,description,_id
+    } = req.body;
+
+    const dbResult = await Product.updateOne({_id},{productName,brand,color,size,quantity,
+      regularPrice,sellingPrice,material,description});
+
+    console.log(dbResult);
+
+    res.redirect('/admin/products')
+  
+    
+  } catch (error) {
+
+    console.log(error);
+    
+    
+  }
+}
+
+
+
 
 module.exports = {
   products,
   addproductPage,
   addProduct,
+  removeProduct,
+  editProduct,
+  updateProduct
 };

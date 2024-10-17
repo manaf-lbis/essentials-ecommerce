@@ -16,3 +16,22 @@ statusButtons.forEach((button) => {
     }
   });
 });
+
+// confirm remove product
+function confirmRemove(productId) {
+  // Show SweetAlert confirmation
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirect to delete route if confirmed
+      window.location.href = `/admin/removeProduct/${productId}`;
+    }
+  });
+}

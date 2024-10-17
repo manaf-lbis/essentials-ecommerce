@@ -32,11 +32,6 @@ app.use(
   })
 );
 
-// app.get('/product',(req,res)=>{
-//   res.render('user/productDetails');
-
-// })
-
 
 // Middleware to prevent caching
 app.use((req, res, next) => {

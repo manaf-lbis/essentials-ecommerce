@@ -8,18 +8,33 @@ const listCategory = async (req,res)=>{
     return res.render('admin/category',{categories})
 };
 
+const addCategoryPage = (req,res)=>{
+    try {
+        res.render('admin/addcategory',{ message:'' })
+         
+    } catch (error) {
+        console.log(error); 
+    }
+}
+
 
 const addCategory = async (req, res) => {
+
+
     try {
         const { categoryName, description } = req.body;
+        const {filename} = req.file;
+     
         const isExist = await Category.findOne({ categoryName});
 
         if (isExist) {
-            return res.render('admin/category', { alert: 'Category Exists' });
+            return res.render('admin/addcategory', { message: 'Category Exists' });
         }
 
-        const category = await new Category({ categoryName, description });
+        const category = new Category({ categoryName, description,image:filename });
+
         await category.save();
+        
         return res.redirect('/admin/category');
 
     } catch (error) {
@@ -52,4 +67,5 @@ module.exports={
     listCategory,
     addCategory,
     removeCategory,
+    addCategoryPage,
 }

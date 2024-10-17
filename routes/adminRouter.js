@@ -28,13 +28,18 @@ router.post('/unblockUser/:id', auth.adminAuth, userController.unblockUser);
 
 //category
 router.get('/category', auth.adminAuth, categoryController.listCategory);
-router.post('/category', auth.adminAuth, categoryController.addCategory);
+router.get('/addCategory', auth.adminAuth, categoryController.addCategoryPage);
+router.post('/category', auth.adminAuth, config.upload.single('image'), categoryController.addCategory);
 router.get('/removeCategory',auth.adminAuth, categoryController.removeCategory);
 
 //product
 router.get('/products', auth.adminAuth, productController.products);
 router.get('/addProduct', auth.adminAuth, productController.addproductPage);
 router.post('/addProduct', auth.adminAuth, config.upload.array('images', 3), productController.addProduct);
+router.get('/removeProduct/:id', auth.adminAuth, productController.removeProduct);
+router.get('/editProduct/:id', auth.adminAuth, productController.editProduct);
+router.post('/updateProduct/', auth.adminAuth, productController.updateProduct);
+
 
 
 //orders

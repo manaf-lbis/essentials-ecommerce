@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const User = require('../../models/userSchema');
 const session = require('express-session');
 const passport = require('../../config/passport');
+const Product = require('../../models/productSchema');
+const Category = require('../../models/categorySchema');
 
 
 
@@ -30,8 +32,23 @@ const loadLoginpage = (req, res) => {
 };
 
 // <<<====login page rendering===>>>
-const loadHome = (req, res) => {
-  return res.render('user/home');
+const loadHome = async (req, res) => {
+
+  try {
+
+    const products = await Product.find({isBlocked:false});
+    const category = await Category.find({isBlocked:false});
+
+
+    return res.render('user/home',{product});
+    
+  } catch (error) {
+    
+  }
+
+
+
+  
 };
 
 // <<<====login page rendering===>>>

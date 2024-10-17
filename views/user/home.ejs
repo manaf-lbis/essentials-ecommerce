@@ -156,12 +156,13 @@
             <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
 
 
+              <% for(let product of products){ %>
                 <!-- product start -->
               <div class="col">
                 <div class="product-item">
                   <figure>
                     <a href="index.html" title="Product Title">
-                      <img src="images/product-thumb-1.png" alt="Product Thumbnail" class="tab-image">
+                      <img src="<%=product.productImage[0]  %>" alt="Product Thumbnail" class="tab-image">
                     </a>
                   </figure>
                   <div class="d-flex flex-column text-center">
@@ -191,6 +192,8 @@
                   </div>
                 </div>
               </div>
+
+               <% } %>
               <!-- product ends -->
 
              
