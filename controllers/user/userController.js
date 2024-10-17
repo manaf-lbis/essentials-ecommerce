@@ -40,9 +40,10 @@ const loadHome = async (req, res) => {
     const category = await Category.find({isBlocked:false});
 
 
-    return res.render('user/home',{product});
+    return res.render('user/home',{products,category});
     
   } catch (error) {
+    console.log(error);
     
   }
 
@@ -167,6 +168,8 @@ const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email, googleId: null, isAdmin:false});
+
+    console.log('working 1');
 
       if(!user){
         return res.status(401).render('user/login', { error: 'invalid username or password' });

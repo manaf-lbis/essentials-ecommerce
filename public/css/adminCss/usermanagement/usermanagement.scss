@@ -23,7 +23,7 @@ body{
     gap: 15px;
     .mainpanel{
         flex-grow: 1;
-        height: 500px;
+        min-height: 500px;
         border-radius: 8px;
         background-color: #fff;
         nav{

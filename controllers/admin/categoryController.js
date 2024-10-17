@@ -1,11 +1,29 @@
 const Category = require('../../models/categorySchema');
+const Product = require('../../models/productSchema')
+const { products } = require('./productControllers');
 
 
 
 const listCategory = async (req,res)=>{
     
-    const categories = await Category.find({isBlocked:false});
-    return res.render('admin/category',{categories})
+    // const categories = await Category.find({isBlocked:false});
+
+
+   const dbData = await Category.aggregate([
+        {
+          $lookup: {
+            from: 'products',            
+            localField: '_id',           
+            foreignField: 'category',    
+            as: 'products'               
+          }
+        }
+      ]);
+      console.log(dbData);
+
+  return res.render('admin/category',{dbData})    
+
+
 };
 
 const addCategoryPage = (req,res)=>{

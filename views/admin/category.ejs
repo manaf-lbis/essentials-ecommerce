@@ -36,7 +36,7 @@
                             </div>
                             <div class="categoryList list">
 
-                                <% for(let category of categories){ %>
+                                <% for(let category of dbData){ %>
 
                                     <div class="header user">
                                         <ul>
@@ -46,7 +46,7 @@
                                             <li>
                                                 <%= category.description.substring(0, 15)+"..." %>
                                             </li>
-                                            <li>0</li>
+                                            <li><%= category.products.length %></li>
                                             <li>
                                                 <img id="edit" src="/assets/images/edit.png" alt="">
 

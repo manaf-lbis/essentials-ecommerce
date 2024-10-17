@@ -7,21 +7,25 @@ const products = async (req, res) => {
 
   try {
     const searchQuery = req.query.search ?? '';
+    
     let currentPage = Number(req.query.pageReq) || 1;
-
-
     const limit = 5;
-    const skip = (currentPage - 1) * limit;
-
-    const count = await Product.countDocuments({
+  
+    const count = Math.ceil(await Product.countDocuments({
       $or: [
         { 'productName': { $regex: '.*' + searchQuery + '.*', $options: 'i' } },
         { 'brand': { $regex: '.*' + searchQuery + '.*', $options: 'i' } }
-
       ]
-    });
+    })/limit);
 
-    currentPage = currentPage > (count / limit) ? currentPage - 1 : currentPage;
+
+    currentPage = currentPage+1 > count  ? count: currentPage;
+    
+
+  
+  const skip = (currentPage - 1) * limit;
+
+
 
     const products = await Product.find({
       $or: [

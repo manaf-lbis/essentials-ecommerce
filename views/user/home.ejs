@@ -91,7 +91,6 @@
     </section>
 
 
-<!-- category section -->
     <section class="py-5 overflow-hidden">
       <div class="container-lg">
         <div class="row">
@@ -101,6 +100,7 @@
               <h2 class="section-title">Category</h2>
 
               <div class="d-flex align-items-center">
+                
                 <div class="swiper-buttons">
                   <button class="swiper-prev category-carousel-prev btn btn-yellow">❮</button>
                   <button class="swiper-next category-carousel-next btn btn-yellow">❯</button>
@@ -116,12 +116,14 @@
             <div class="category-carousel swiper">
               <div class="swiper-wrapper">
 
-                <!-- category slider  -->
+                <% for(let ele of category){ %>
+
                 <a href="category.html" class="nav-link swiper-slide text-center">
-                  <img src="images/category-thumb-1.jpg" class="rounded-circle" alt="Category Thumbnail">
-                  <h4 class="fs-6 mt-3 fw-normal category-title">Fruits & Veges</h4>
+                  <img style="width: 150px;" src="uploads/<%= ele.image[0] %>" class="rounded-circle" alt="Category Thumbnail">
+                  <h4 class="fs-6 mt-3 fw-normal category-title"><%= ele.categoryName %></h4>
                 </a>
-            
+                
+                <% } %>
               </div>
             </div>
 
@@ -129,7 +131,14 @@
         </div>
       </div>
     </section>
-<!-- category slider ends -->
+
+
+
+
+
+
+
+
 
 <!-- best selling products  -->
     <section class="pb-5">
@@ -162,25 +171,25 @@
                 <div class="product-item">
                   <figure>
                     <a href="index.html" title="Product Title">
-                      <img src="<%=product.productImage[0]  %>" alt="Product Thumbnail" class="tab-image">
+                      <img src="<%=product.productImage[0] %>" alt="Product Thumbnail" class="tab-image">
                     </a>
                   </figure>
                   <div class="d-flex flex-column text-center">
-                    <h3 class="fs-6 fw-normal">Whole Wheat Sandwich Bread</h3>
+                    <h3 class="fs-6 fw-normal"><%=product.productName.substring(0,22)+'...'%></h3>
                     <div>
-                      <span class="rating">
+                      <!-- <span class="rating">
                         <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
                         <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
                         <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
                         <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
                         <svg width="18" height="18" class="text-warning"><use xlink:href="#star-half"></use></svg>
                       </span>
-                      <span>(222)</span>
+                      <span>(222)</span> -->
                     </div>
                     <div class="d-flex justify-content-center align-items-center gap-2">
-                      <del>$24.00</del>
-                      <span class="text-dark fw-semibold">$18.00</span>
-                      <span class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">10% OFF</span>
+                      <del>₹<%=product.regularPrice %></del>
+                      <span class="text-dark fw-semibold">₹ <%=product.sellingPrice %></span>
+                      <!-- <span class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">10% OFF</span> -->
                     </div>
                     <div class="button-area p-3 pt-0">
                       <div class="row g-1 mt-2">

@@ -21,7 +21,7 @@ function prepareCrop(event, previewId) {
                 } else {
                     // Initialize the cropper
                     croppers[previewId] = new Cropper(imagePreview, {
-                        aspectRatio: 4 / 3,
+                        aspectRatio: 1 / 1,
                         viewMode: 1,
                         autoCropArea: 1,
                         scalable: true,
