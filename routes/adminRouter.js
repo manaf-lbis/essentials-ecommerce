@@ -31,6 +31,10 @@ router.get('/category', auth.adminAuth, categoryController.listCategory);
 router.get('/addCategory', auth.adminAuth, categoryController.addCategoryPage);
 router.post('/category', auth.adminAuth, config.upload.single('image'), categoryController.addCategory);
 router.get('/removeCategory',auth.adminAuth, categoryController.removeCategory);
+router.get('/editCategoryPage',auth.adminAuth, categoryController.editCategoryPage);
+router.post('/updateCategory',auth.adminAuth, categoryController.updateCategory);
+
+
 
 //product
 router.get('/products', auth.adminAuth, productController.products);
@@ -38,7 +42,7 @@ router.get('/addProduct', auth.adminAuth, productController.addproductPage);
 router.post('/addProduct', auth.adminAuth, config.upload.array('images', 3), productController.addProduct);
 router.get('/removeProduct/:id', auth.adminAuth, productController.removeProduct);
 router.get('/editProduct/:id', auth.adminAuth, productController.editProduct);
-router.post('/updateProduct/', auth.adminAuth, productController.updateProduct);
+router.post('/updateProduct', auth.adminAuth, productController.updateProduct);
 
 
 

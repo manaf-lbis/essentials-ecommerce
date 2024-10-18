@@ -31,22 +31,29 @@ body{
         padding-top: 15px;
 
         .sideBar{
-            width: 50px;
+            width: 60px;
             max-height: 300px;
             margin: 0 0 0 20px;
             border-radius: 4px;
             padding-top: 5px;
             overflow: hidden;
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+            img{
+                width: 100%;
+                border-radius: 6px;
+                
+            }
         
     
             div{
-                height: 40px;
-                width: 40px;
+                height: 50px;
+                width: 50px;
                 border: 1px solid #DFE1E7; 
                 border-radius: 8px;
                 margin: auto;
-                margin-bottom: 5px;
+                margin-bottom: 16px;
+                border: 2px solid black;
             }
         }
 

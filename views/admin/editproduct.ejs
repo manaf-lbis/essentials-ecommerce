@@ -59,6 +59,13 @@
                         <input id="material" type="text" value="<%= dbResult.material%>" class="form-control" name="material" placeholder="Material of the product..." >
                         <div id="materialErr" class="validate-err"></div>
 
+
+                        <label for="">Product status</label><br>
+                        <select name="status" class="w-100 " name="" id="">
+                            <option value ="Available">Available</option>
+                            <option  value ="Out of Stock" >Out of Stock</option>
+                        </select><br>
+
                         <label for="description">About</label>
                         <input id="description" type="text" value="<%= dbResult.description%>" class="form-control" name="description" placeholder="Detailed description about the product.." >
                         <div id="descriptionErr" class="validate-err"></div>

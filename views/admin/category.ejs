@@ -13,13 +13,13 @@
                                 <h4>Category Management</h4>
                                 <div class="d-flex">
                                     <form class="d-flex" role="search">
-                                        <input class="form-control me-2" type="search" placeholder="Search"
+                                        <!-- <input class="form-control me-2" type="search" placeholder="Search"
                                             aria-label="Search">
-                                        <button class="btn btn-outline-success" type="submit">Search</button>
+                                        <button class="btn btn-outline-success" type="submit">Search</button> -->
                                     </form>
                                     <a href="/admin/addCategory">
-                                    <button id="addCategory" class="btn btn-outline-primary ms-3" type="button">Add
-                                        Category</button></a>
+                                        <button id="addCategory" class="btn btn-outline-primary ms-3" type="button">Add
+                                            Category</button></a>
                                 </div>
                             </div>
                         </nav>
@@ -46,9 +46,13 @@
                                             <li>
                                                 <%= category.description.substring(0, 15)+"..." %>
                                             </li>
-                                            <li><%= category.products.length %></li>
                                             <li>
-                                                <img id="edit" src="/assets/images/edit.png" alt="">
+                                                <%= category.products.length %>
+                                            </li>
+                                            <li>
+                                                <a href="/admin/editCategoryPage/?id=<%= category._id  %>">
+                                                  <img id="edit" src="/assets/images/edit.png" alt="">
+                                                </a>
 
                                                 <a class="deleteBtn"
                                                     href="/admin/removeCategory/?id=<%= category._id  %>">

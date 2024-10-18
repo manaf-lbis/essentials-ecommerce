@@ -5,6 +5,10 @@
 
     <body>
       <%- include("../partials/userNavbar.ejs") %>
+      <div class="container pt-3">
+        <a href="/">Home/</a>
+        <a href="">Product/</a>
+      </div>
 
     <div class="container">
 
@@ -14,9 +18,11 @@
 
                 <div class="sideBar">
                     <!-- mini images -->
-                  <div>
-                    <img src="" alt="">
-                  </div>
+                    <% for(let image of dbResult.productImage){ %>
+                      <div>
+                        <img src="<%=image %>" alt="">
+                      </div>
+                      <% } %>
 
                 </div>
                 <div class="productImgSec">
@@ -24,8 +30,8 @@
 
                         <div class="imageSec ">
                             <a class="magnifier-thumb-wrapper" >
-                                <img  class="imageSec "  id="thumb" src="https://fps.cdnpk.net/images/home/subhome-ai.webp?w=649&h=649"
-                                data-large-img-url="https://fps.cdnpk.net/images/home/subhome-ai.webp?w=649&h=649"
+                                <img  class="imageSec "  id="thumb" src="<%= dbResult.productImage[0]  %>"
+                                data-large-img-url="<%= dbResult.productImage[0]  %>"
                                 data-large-img-wrapper="preview">
                             </a>
                             <!-- <div class="magnifier-preview" id="preview" style="width: 400px; height: 300px"></div> -->
@@ -55,11 +61,12 @@
              <!--================= right section /all details================-->
             <div class="productDetails">
                 <!-- product title -->
-                <h4>Fastrack Revoltt FS1|1.83 Display|BT Calling|Fastcharge|110+ Sports Mode|200+ WatchFaces Smartwatch  (Black Strap, Free Size)</h4>
+                <h4><%= dbResult.productName%></h4>
                   <!-- ========= Price section =========== -->
                 <div class="line"></div>
                  <h6 class="text-success">Special Price</h6>
-                 <h3>₹10,000</h3>
+                 <del>₹<%= dbResult.regularPrice  %></del>
+                 <h3>₹<%= dbResult.sellingPrice  %></h3>
                  <p>inclusive of all taxes</p>
 
                  <div class="line"></div>
@@ -71,15 +78,24 @@
                 <h6 >Specfication</h6>
                 <table>
                     <tr>
-                        <th>color</th>
-                        <td>red</td>
+                        <th>Color</th>
+                        <td> <%= dbResult.color %></td>
                     </tr>
+                    <tr>
+                      <th>Material</th>
+                      <td> <%= dbResult.material %></td>
+                    </tr>
+                    <tr>
+                      <th>Size</th>
+                      <td> <%= dbResult.size %></td>
+                    </tr>
+
                 </table>
 
                 <div class="line"></div>
                 <h6>About this Product</h6>
                 <ul>
-                    <li>Processor: Intel Core 5 Processor 120U (1.4 GHz Up to 5.0 GHz 12 MB Smart Cache) | Memory: 16 GB LPDDR4X Memory | Storage: 512GB SSD| Intel Iris XE Graphics</li>
+                    <li><%= dbResult.description %></li>
                 </ul>
             </div>
         </div>
@@ -113,15 +129,17 @@
                                   
                   <!-- product slider  -->
 
+                  <% for(let product of recomented){ %>
+
                   <div class="product-item swiper-slide">
                     <figure>
                       <a href="index.html" title="Product Title">
-                        <img src="images/product-thumb-17.png" alt="Product Thumbnail" class="tab-image">
+                        <img src="<%= product.productImage[0]  %>" alt="Product Thumbnail" class="tab-image">
                       </a>
                     </figure>
                     <div class="d-flex flex-column text-center">
-                      <h3 class="fs-6 fw-normal">Whole Wheat Sandwich Bread</h3>
-                      <div>
+                      <h3 class="fs-6 fw-normal"><%= product.productName.substring(0,18)+'...' %></h3>
+                      <!-- <div>
                         <span class="rating">
                           <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
                           <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
@@ -130,11 +148,11 @@
                           <svg width="18" height="18" class="text-warning"><use xlink:href="#star-half"></use></svg>
                         </span>
                         <span>(222)</span>
-                      </div>
+                      </div> -->
                       <div class="d-flex justify-content-center align-items-center gap-2">
-                        <del>$24.00</del>
-                        <span class="text-dark fw-semibold">$18.00</span>
-                        <span class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">10% OFF</span>
+                        <del>₹<%= product.regularPrice %></del>
+                        <span class="text-dark fw-semibold">₹<%= product.sellingPrice %></span>
+                        <!-- <span class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">10% OFF</span> -->
                       </div>
                       <div class="button-area p-3 pt-0">
                         <div class="row g-1 mt-2">
@@ -145,6 +163,7 @@
                       </div>
                     </div>
                   </div>
+                  <% } %>
                  <!-- product ends -->
   
                     
@@ -169,7 +188,7 @@
 
 
 
-    <%- include("../partials//userFooter.ejs") %>
+    <%- include('../partials/userFooter.ejs')  %>
 
 
 

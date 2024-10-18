@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('../config/passport')
 const userController = require('../controllers/user/userController');
 const userMiddleware = require('../middlewares/usersMiddleware')
+const productsController = require('../controllers/user/productsController')
 
 
 // google auth 
@@ -21,6 +22,10 @@ router.get('/home', userMiddleware.isAuthenticated, userController.loadHome);
 
 
 router.get('/logout',userController.userLogout);
+
+//product details
+router.get('/product/:id',userMiddleware.isAuthenticated,productsController.getDetailedPage );
+
 
 module.exports = router;
 

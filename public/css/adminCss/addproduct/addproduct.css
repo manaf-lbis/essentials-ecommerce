@@ -49,6 +49,11 @@ body {
   margin-top: 10px;
 }
 
+select {
+  height: 40px;
+  border-radius: 6px;
+}
+
 .right {
   padding: 15px;
 }

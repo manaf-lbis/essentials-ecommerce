@@ -86,7 +86,7 @@ const addProduct = async (req, res) => {
     await product.save();
 
     // Fetch categories 
-    const dbCategory = await Category.find();
+    // const dbCategory = await Category.find({});
 
 
     return res.status(200).json({ success: true, message: 'Product added successfully' });
@@ -134,11 +134,11 @@ const updateProduct = async (req,res)=>{
   try {
 
     const {productName,brand,color,size,quantity,
-      regularPrice,sellingPrice,material,description,_id
+      regularPrice,sellingPrice,material,description,_id,status
     } = req.body;
 
     const dbResult = await Product.updateOne({_id},{productName,brand,color,size,quantity,
-      regularPrice,sellingPrice,material,description});
+      regularPrice,sellingPrice,material,description,status});
 
     console.log(dbResult);
 
