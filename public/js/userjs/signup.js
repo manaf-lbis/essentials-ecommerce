@@ -14,7 +14,8 @@ form.addEventListener("submit",(event)=>{
 
    let validation = true;
 
-   if(name.length<3){
+   if(name.trim().length < 3){
+    document.getElementById('nameField').value = ''
     document.getElementById('nameerr').innerHTML = 'name should be minimum 3';
     validation = false;
    }
@@ -39,12 +40,12 @@ form.addEventListener("submit",(event)=>{
 
    
 function clearError(){
-
     document.getElementById('nameerr').innerHTML ='';
     document.getElementById('phoneerr').innerHTML ='';
     document.getElementById('emailerr').innerHTML ='';
     document.getElementById('passworderr').innerHTML ='';
 }
+
 
 if(validation){
     form.submit(); 

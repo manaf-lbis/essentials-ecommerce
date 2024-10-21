@@ -198,16 +198,19 @@ const verifyLogin = async (req, res) => {
 // <=====resent otp ==========>
 const resentotp = async (req, res) => {
   try {
+  
     const { email } = req.session.userData;
+   
+    
     const otp = otpGenerator();
     const sentInfo = await sendverification(email, otp);
 
+    
     req.session.userOtp = otp;
     console.log('resend:', otp);
+    res.status(200).json({ message: 'OTP Sent Successfully' });
 
-    if (sentInfo.accepted.length > 0) {
-      return res.render('user/otp', { message: '' });
-    }
+    
   } catch (error) {
     console.log('unable to resent otp :', error);
     return res.status(500).render('user/pagenotFound');
