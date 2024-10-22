@@ -48,5 +48,45 @@ resendBtn.addEventListener('click', ()=>{
 
 
   
+// otp verify
+const verifyOtp = async () => {
+    const enteredOtp = document.getElementById('userOtp').value;
+
+
+    const response = await fetch('/verify-otp', {
+        method: 'post',
+        body: JSON.stringify({ enteredOtp })
+        , headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+
+    if(response.ok){
+
+       await Swal.fire({
+            title: 'Sucessfull',
+            text: 'Account Created SucessFull',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
+
+        window.location.href = '/'
+
+
+        
+    }else{
+
+        Swal.fire({
+            icon: "error",
+            title: "Wrong OTP",
+            text: "Please try again",
+            confirmButtonText: 'OK',
+        });
+
+    }
+    
+}
+
 
       

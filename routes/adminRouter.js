@@ -33,8 +33,7 @@ router.post('/category', auth.adminAuth, config.upload.single('image'), category
 router.get('/removeCategory',auth.adminAuth, categoryController.removeCategory);
 router.get('/editCategoryPage',auth.adminAuth, categoryController.editCategoryPage);
 router.post('/updateCategory',auth.adminAuth, categoryController.updateCategory);
-
-
+router.get('/restoreCategory',auth.adminAuth, categoryController.restoreCategory);
 
 //product
 router.get('/products', auth.adminAuth, productController.products);

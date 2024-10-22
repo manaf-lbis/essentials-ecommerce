@@ -20,24 +20,28 @@
                         </nav>
 
                         <section class="w-50 mx-auto pt-5">
-                            <form action="/admin/category" method="post" enctype="multipart/form-data">
+                            <form action="/admin/category" id="form" method="post" enctype="multipart/form-data">
 
                                 <div class="form-group">
                                   <label for="exampleInputEmail1">Category Name</label>
-                                  <input name="categoryName" type="text" class="form-control border border-info" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Catefory Name" required>
+                                  <input name="categoryName"  type="text" class="form-control border border-info" id="categoryName" aria-describedby="emailHelp" placeholder="Catefory Name" >
+                                  <div class="text-danger" id="categoryErr"></div>
+                                  
                                 </div>
 
                                 <div class="form-group">
                                   <label for="exampleInputPassword1">Description</label>
-                                  <input name="description" type="text" class="form-control border border-info" id="exampleInputPassword1" placeholder="Description" required>
+                                  <input name="description" type="text" class="form-control border border-info" id="description" placeholder="Description" >
+                                  <div class="text-danger" id="descriptionErr"></div>
+                                  
                                 </div>
 
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Logo</label>
-                                    <input name="image" accept="image/png, image/jpeg" type="file" class="form-control border border-info" id="exampleInputPassword1" placeholder="upload image " required>
+                                    <input name="image" accept="image/png, image/jpeg" type="file" class="form-control border border-info" id="exampleInputPassword1" placeholder="upload image "  required>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
                             </form>
 
                         </section>
@@ -51,7 +55,8 @@
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-            <script src="/js/adminjs/category.js"></script>
+            <script src="/js/adminjs/addCategory.js"></script>
+           
 
             <!-- Inline script for showing SweetAlert -->
             <% if (typeof alert !=='undefined' && alert.trim() !=='' ) { %>

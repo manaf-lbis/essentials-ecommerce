@@ -32,7 +32,7 @@ const addCategory = async (req, res) => {
         const { categoryName, description } = req.body;
         const { filename } = req.file;
 
-        const isExist = await Category.findOne({ categoryName });
+        const isExist = await Category.findOne({categoryName:{$regex: new RegExp(categoryName,'i')} });
 
         if (isExist) {
             return res.render('admin/addcategory', { message: 'Category Exists' });
@@ -57,6 +57,11 @@ const removeCategory = async (req, res) => {
     try {
         const id = req.query.id;
         await Category.updateOne({ _id: id }, { $set: { isBlocked: true } });
+
+        const result = await Product.updateMany(
+            { category: id },
+            { $set: { isBlocked: true } }
+        );
 
         return res.redirect('/admin/category');
     } catch (error) {
@@ -88,6 +93,23 @@ const updateCategory = async (req, res) => {
     }
 };
 
+const restoreCategory = async (req, res) => {
+    try {
+        const _id = req.query.id;
+
+        await Category.updateOne({ _id }, { $set: { isBlocked: false } });
+        const result = await Product.updateMany(
+            { category: _id },
+            { $set: { isBlocked: false } }
+        );
+
+        res.redirect('/admin/category');
+    } catch (error) {
+        console.log(error);
+        return res.status(500).redirect('/admin/pagenotFound');
+    }
+};
+
 module.exports = {
     listCategory,
     addCategory,
@@ -95,4 +117,5 @@ module.exports = {
     addCategoryPage,
     editCategoryPage,
     updateCategory,
+    restoreCategory,
 };

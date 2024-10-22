@@ -21,16 +21,16 @@
              
     <!-- form -->
     <div class="rightSection rounded-3">
-        <div class="m-4">  
+        <div class="m-4 ">  
             <h3 class="pt-3 ">Verify mobile number</h3>
-            <p>A text with a One Time Password (OTP) has been sent to your mobile number</p>
+            <p>A text with a One Time Password (OTP) has been sent to your Email id</p>
 
-            <form action="/verify-otp" method="post">
+            <form  >
                 <label for="exampleFormControlInput1" class="form-label">Enter OTP</label>
-                <input type="password" name="enteredOtp" maxlength="6" class="form-control" id="exampleFormControlInput1" placeholder="Enter your OTP" required>
+                <input type="password" name="enteredOtp" maxlength="6" class="form-control" id="userOtp" placeholder="Enter your OTP" required>
                 <div id="nameerr" class="errorStyle"><%= message %></div>
                 
-                <button type="submit" class="btn btn-primary my-3 w-100">Create your Account</button>
+                <button type="button" onclick="verifyOtp()" class="btn btn-primary my-3 w-100">Create your Account</button>
                 
             </form>  
             <div class="resend d-flex flex-column justify-content-center ">
@@ -44,6 +44,13 @@
             </div>
             
           </div>
+
+
+
+
+
+
+
             
     </div>
 </div>

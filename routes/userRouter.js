@@ -4,6 +4,7 @@ const passport = require('../config/passport')
 const userController = require('../controllers/user/userController');
 const userMiddleware = require('../middlewares/usersMiddleware')
 const productsController = require('../controllers/user/productsController')
+const forgotPassword = require('../controllers/user/forgotPasswordController');
 
 
 // google auth 
@@ -19,6 +20,13 @@ router.get('/resentotp', userController.resentotp);
 router.post('/verify-otp', userController.verifyOtp);
 router.post('/login', userController.verifyLogin); 
 router.get('/home', userMiddleware.isAuthenticated, userController.loadHome); 
+
+//forgot password
+router.get('/forgotPassword',forgotPassword.forgotPassword);
+router.post('/verifyEmail',forgotPassword.verifyEmail);
+router.post('/verifyOtp',forgotPassword.verifyOtp);
+router.post('/changePassword',forgotPassword.changePassword);
+
 
 
 router.get('/logout',userController.userLogout);

@@ -50,14 +50,24 @@
                                                 <%= category.products.length %>
                                             </li>
                                             <li>
-                                                <a href="/admin/editCategoryPage/?id=<%= category._id  %>">
-                                                  <img id="edit" src="/assets/images/edit.png" alt="">
-                                                </a>
 
-                                                <a class="deleteBtn"
-                                                    href="/admin/removeCategory/?id=<%= category._id  %>">
-                                                    <img id="delete" src="/assets/images/delete1.png" alt="">
-                                                </a>
+                                                <% if(!category.isBlocked){ %>
+                                                    <a href="/admin/editCategoryPage/?id=<%= category._id  %>">
+                                                        <img id="edit" src="/assets/images/edit.png" alt="">
+                                                    </a>
+
+                                                    <a class="deleteBtn"
+                                                        href="/admin/removeCategory/?id=<%= category._id  %>">
+                                                        <img id="delete" src="/assets/images/delete1.png" alt="">
+                                                    </a>
+                                                    <% }else{ %>
+
+                                                        <a id="restoreBtn"
+                                                            href="/admin/restoreCategory/?id=<%= category._id  %>">
+                                                            <img  src="/assets/images/restore.png" alt="">
+                                                        </a>
+
+                                                        <% } %>
 
                                             </li>
                                         </ul>
