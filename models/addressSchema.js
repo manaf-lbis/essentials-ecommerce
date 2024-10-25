@@ -9,6 +9,10 @@ const addressSchema = new Schema({
   },
   address: [
     {
+      _id: {
+        type: Schema.Types.ObjectId, 
+        default: () => new mongoose.Types.ObjectId(), 
+      },
       fullName: {
         type: String,
         required: true,
@@ -25,13 +29,6 @@ const addressSchema = new Schema({
         type: String,
         required: true,
       },
-      landmark: {
-        type: String,
-      },
-      towm: {
-        type: String,
-        required: true,
-      },
       city: {
         type: String,
         required: true,
@@ -44,10 +41,14 @@ const addressSchema = new Schema({
         type: String,
         required: true,
       },
-      phoneNo: {
+      phone: {
         type: String,
         required: true,
       },
+      isBlocked:{
+        type:Boolean,
+        default:false
+      }
     },
   ],
 });

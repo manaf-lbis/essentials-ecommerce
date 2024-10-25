@@ -17,10 +17,12 @@ const cartSchema = new Schema({
       quantity: {
         type: Number,
         required: true,
+        min:[1]
       },
       addedOn: {
         type: Date,
-        daefult: Date.now,
+        required: true,
+        default: Date.now(),
       },
     },
   ],

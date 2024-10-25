@@ -1,0 +1,150 @@
+<html lang="en">
+<%- include('../../partials/htmlHeadUser.ejs',{csspath:'/css/userCss/profile/address.css'}) %>
+    <link rel="stylesheet" href="/css/commonCss/userProfileLeft/userProfileLeftbar.css" />
+
+    <body>
+        <%- include('../../partials/userNavbar.ejs') %>
+
+            <section class="container d-flex gap-2">
+                <%- include('../../partials/userprofile/profileleftSec.ejs') %>
+
+                    <!-- right Section -->
+                    <section id="rightSection">
+
+
+                        <div id="addressList" class="">
+                            <h5>Address Management</h5>
+                            <div class="line"></div>
+
+                            <ul id="list" class="list-group border mt-2">
+
+
+
+                                <% for(let ele of addressDetails ){ %>
+                                    <li class="list-group-item border-dark">
+
+                                        <p>
+                                            <%= `${ele.fullName },${ele.houseName },${ele.area},${ele.street
+                                                },${ele.pincode }` %>
+                                        </p>
+
+                                            <img addressId="<%=ele._id%>" class="deleteBtn" src="/assets/images/delete1.png" alt="">
+                                    </li>
+
+
+                                    <% } %>
+
+
+
+                            </ul>
+                            <button type="button" onclick="addressSec()"
+                                class="btn btn-link text-capitalize text-primary">
+                                Add Address +
+                            </button>
+                        </div>
+
+
+                        <!-- address adding portion -->
+                        <section id="addressAddingSec" class="d-none">
+                            <h5>Add Address</h5>
+                            <div class="line"></div>
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-12">
+
+                                        <form class="form-horizontal" method="post" action="/addNewAddress"
+                                            id="addressAddingForm" role="form">
+                                            <div class="form-group">
+                                                <label for="fullName" class="col-sm-2 control-label">Full Name</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="fullName"
+                                                        name="fullName" placeholder="Full Name" />
+                                                    <span class="text-danger" id="fullNameErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="houseName" class="col-sm-2 control-label">Address</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="houseName"
+                                                        name="houseName" placeholder="Address Line" />
+                                                    <span class="text-danger" id="houseNameErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="area" class="col-sm-2 control-label">Area</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="area" name="area"
+                                                        placeholder="Area" />
+                                                    <span class="text-danger" id="areaErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="street" class="col-sm-2 control-label">Street</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="street" name="street"
+                                                        placeholder="Street" />
+                                                    <span class="text-danger" id="streetErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="city" class="col-sm-2 control-label">City</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="city" name="city"
+                                                        placeholder="City" />
+                                                    <span class="text-danger" id="cityErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="state" class="col-sm-2 control-label">State</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="state" name="state"
+                                                        placeholder="State" />
+                                                    <span class="text-danger" id="stateErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="pincode" class="col-sm-2 control-label">Postal code</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="pincode" name="pincode"
+                                                        maxlength="6" placeholder="Postal code" />
+                                                    <span class="text-danger" id="pincodeErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="phone" class="col-sm-2 control-label">Phone</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="phone" name="phone"
+                                                        maxlength="10" placeholder="Phone number" />
+                                                    <span class="text-danger" id="phoneErr"></span>
+                                                </div>
+                                            </div>
+
+                                            <button type="submit" id="newAddressSubmit"
+                                                class="btn btn-success">Success</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- address adding sec end -->
+
+
+
+                    </section>
+            </section>
+
+            <%- include('../../partials/userFooter.ejs') %>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script src="/js/userjs/profileSection/addressManagement.js"></script>
+    </body>
+
+</html>

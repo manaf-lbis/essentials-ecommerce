@@ -27,6 +27,10 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  dateOfBirth:{
+    type: Date,
+    required:false
+  },
   address: [
     {
       type: Schema.Types.ObjectId,

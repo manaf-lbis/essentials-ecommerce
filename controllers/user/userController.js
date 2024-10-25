@@ -167,7 +167,7 @@ const verifyLogin = async (req, res) => {
         .render('user/login', { error: 'invalid username or password' });
     }
 
-    req.session.userId = user._id;
+    req.session._id = user._id;
     return res.redirect('/home');
   } catch (error) {
     console.error(`login Faild ${error}`);

@@ -12,7 +12,8 @@ const adminRouter = require('./routes/adminRouter');
 
 // Connect to the database
 db();
-  
+
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -47,6 +48,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 
+
 // user router
 app.use('/', userRouter);
 
@@ -55,10 +57,9 @@ app.use('/admin', adminRouter);
 
 
 
+
 // <========= Google authentication routes
 app.use('/auth',userRouter)
-
-
 
 
 

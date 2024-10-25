@@ -1,14 +1,14 @@
 const User = require('../models/userSchema');
 
 const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated() || req.session.userId) {
+    if (req.isAuthenticated() || req.session._id) {
         return next(); 
     }
     return res.redirect('/'); 
 };
 
 const isNotAuthenticated = (req, res, next) => {
-    if (!req.isAuthenticated() && !req.session.userId) {
+    if (!req.isAuthenticated() && !req.session._id) {
         return next(); 
     }
     return res.redirect('/home'); 
