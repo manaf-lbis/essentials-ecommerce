@@ -45,15 +45,19 @@
                       <p>Color: <%= item.allProducts[0].color %></p>
                       <p>Size: <%= item.allProducts[0].size %></p>
                       <p>Brand: <%= item.allProducts[0].brand %></p>
+                      <p>Brand: ₹ <%= item.allProducts[0].sellingPrice %>/-</p>
 
-                      <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm me-1 mb-2" data-mdb-tooltip-init
-                        title="Remove item">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                      <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-sm mb-2" data-mdb-tooltip-init
+                      <a href="/removeCartItem/?_id=<%= item.allProducts[0]._id %>">
+                        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-sm me-1 mb-2" data-mdb-tooltip-init
+                          title="Remove item">
+                            <i class="fas fa-trash  text-danger "></i>
+                        </button>
+                      </a>
+                      <!-- movr to wish list -->
+                      <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-sm mb-2" data-mdb-tooltip-init
                         title="Move to the wish list">
                         <i class="fas fa-heart"></i>
-                      </button>
+                      </button> -->
                       <!-- Data -->
                     </div>
       
@@ -90,7 +94,6 @@
 
 
 
-                 
                 </div>
               </div>
              
@@ -124,9 +127,11 @@
                     </li>
                   </ul>
       
+                  <a href="/checkout">
                   <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
                     Proceed to Checkout
                   </button>
+                </a>
                 </div>
               </div>
             </div>

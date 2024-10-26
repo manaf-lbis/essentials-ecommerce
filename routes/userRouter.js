@@ -7,6 +7,7 @@ const productsController = require('../controllers/user/productsController')
 const forgotPassword = require('../controllers/user/forgotPasswordController');
 const profileController = require('../controllers/user/profileController');
 const cartController = require('../controllers/user/cartController')
+const checkoutController = require('../controllers/user/checkoutController')
 
 
 // google auth 
@@ -46,8 +47,13 @@ router.get('/product/:id',userMiddleware.isAuthenticated,productsController.getD
 //cart
 router.get('/cart',userMiddleware.isAuthenticated,cartController.getCartPage);
 router.post('/addToCart',userMiddleware.isAuthenticated,cartController.addToCart);
+router.get('/removeCartItem',userMiddleware.isAuthenticated,cartController.removeCartItem)
+
+// checkout
+router.get('/checkout',checkoutController.getCheckutPage)
 
 
 module.exports = router;
+
 
 
