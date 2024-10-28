@@ -1,5 +1,6 @@
 const Cart = require('../../models/cartSchema');
 const mongoose = require('mongoose');
+const Product = require('../../models/productSchema');
 
 // getting user id from session 
 function getUserIdFromSession(req) {
@@ -9,38 +10,43 @@ function getUserIdFromSession(req) {
 
 // cart page loading logic implimented 
 async function getCartDetails(req) {
+    try {
 
-    const _id = getUserIdFromSession(req)
+        const _id = getUserIdFromSession(req)
 
-    const cartitems = await Cart.aggregate([
-        { $match: { userId: new mongoose.Types.ObjectId(_id) } },
-        { $unwind: '$products' },
-        {
-            $lookup: {
-                from: 'products',
-                localField: 'products.productId',
-                foreignField: '_id',
-                as: 'allProducts'
-            }
-        },
-
-    ]);
-
-    let totalAmount = 0;
-    let totalItems = 0;
-
-
-    if (cartitems) {
-
-        cartitems.forEach((ele) => {
-
-            totalAmount += ele.allProducts[0].sellingPrice * ele.products.quantity;
-            totalItems += ele.products.quantity;
-        })
+        const cartitems = await Cart.aggregate([
+            { $match: { userId: new mongoose.Types.ObjectId(_id) } },
+            { $unwind: '$products' },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'products.productId',
+                    foreignField: '_id',
+                    as: 'allProducts'
+                }
+            },
+    
+        ]);
+    
+        let totalAmount = 0;
+        let totalItems = 0;
+    
+    
+        if (cartitems) {
+    
+            cartitems.forEach((ele) => {
+              
+                totalAmount += ele.allProducts[0].sellingPrice * ele.products.quantity;
+                totalItems += ele.products.quantity;
+            })
+        }
+    
+        return { totalAmount, totalItems, cartitems }
+        
+    } catch (error) {
+        console.log(error);
+        throw error
     }
-
-    return { totalAmount, totalItems, cartitems }
-
 
 }
 
@@ -120,8 +126,19 @@ const addToCart = async (req, res) => {
             return res.status(400).json({ message: 'give minimum cart value' })
         }
 
-        // cart adding logic 
-        const status = checkAndAdd(user_id, _id, quantity);
+        // checking is product Exist or product is blocked
+        const productIsExist = await Product.findOne({_id,isBlocked:false});
+
+        let status =false;
+
+        if(productIsExist){
+            // cart adding logic 
+           status = checkAndAdd(user_id, _id, quantity);
+
+        }else{
+           return res.status(400).json({ message: 'product doesnt exist' })
+        }
+        
 
         if (status) {
 

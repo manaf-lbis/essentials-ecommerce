@@ -125,50 +125,42 @@
               <h3>Comments</h3>
               <hr />
               <!-- Add comment -->
+
               <div class="card mb-3">
                 <div class="card-body">
                   <h5 class="card-title">Leave a comment</h5>
                   <hr />
-                  <form>
+
+                  <form method="post" action="/comment">
                     <div class="form-group">
-                      <textarea rows="3" class="form-control bg-light" placeholder="Enter your comment here..."
+                      <textarea rows="3" name="comment" class="form-control bg-light" placeholder="Enter your comment here..."
                         style="resize: none;"></textarea>
                     </div>
+                    <input type="hidden" name="productId" value="<%= dbResult._id %>">
+
                     <button type="submit" class="btn btn-outline-primary btn-block">Comment</button>
                   </form>
+
                 </div>
               </div>
 
-              <!-- First comment -->
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title">FirstUser</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat laboriosam
-                    recusandae sed dolorem nisi, nobis amet beatae quos doloremque facere, obcaecati ab neque dicta.
-                    Fugit minima non numquam animi ipsum.</p>
-                  <hr />
-                  <ul class="card-text list-inline">
-                    <!-- Like -->
-                    <li class="list-inline-item">
-                      <a href="#">
-                        <i class="bi bi-hand-thumbs-up"></i> 88
-                      </a>
-                    </li>
-                    <!-- Dislike -->
-                    <li class="list-inline-item">
-                      <a href="#">
-                        <i class="bi bi-hand-thumbs-down"></i> 14
-                      </a>
-                    </li>
-                    <!-- Report -->
-                    <li class="list-inline-item">
-                      <a href="#">
-                        <i class="bi bi-flag"></i>
-                      </a>
-                    </li>
-                  </ul>
+              <% if(comments){ %>
+
+                <% for(let comment of comments?.comments){ %>
+                <!-- First comment -->
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title"><%=comment?.userId?.name %></h5>
+                    <p class="card-text"><%=comment?.comment %></p>
+                    <hr />
+                    <div class="d-flex justify-content-end ">
+                      <small><%=comment.date.toString().substring(4,15)  %></small>
+                    </div>
+                    
+                  </div>
                 </div>
-              </div>
+                <% } %>
+              <% } %>
 
 
             </div>

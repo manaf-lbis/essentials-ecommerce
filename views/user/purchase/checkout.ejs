@@ -11,10 +11,11 @@
 
     <section class="h-100 gradient-custom">
         <div class="container py-5">
+
+          <form id="checkoutForm"  action="/placeOrder" method="post">
           <div class="row d-flex justify-content-center my-4">
 
             <div class="col-md-8">
-
                   <!-- Heading -->
               <div class="card mb-4">
                 <div class="card-header py-3 ">
@@ -41,7 +42,7 @@
                       <% for( let address of userAddress.address){  %>
 
                       <div class="addressSec col-md-12" >
-                          <input name="deliveryAddress"  type="radio">
+                          <input name="deliveryAddress" value="<%= address._id  %>"  type="radio">
                           <p class=""><address> <%= `${address.fullName },${address.houseName },${address.area},${address.street
                                                 },${address.pincode }` %></address></p>
                       </div>
@@ -67,7 +68,7 @@
                   <div class="row">
 
                     <div class="addressSec col-md-12" >
-                        <input name="paymentMethord"  type="radio">
+                        <input name="paymentMethod" value="COD"  type="radio">
                         <p class="">Cash on Delivery</p>
                     </div>
                    
@@ -76,7 +77,6 @@
                 </div>
               </div>
               <!-- card Ends -->
-
 
             </div>
 
@@ -108,30 +108,27 @@
                       <div>
                         <strong>Total amount</strong>
                         <strong>
-                          <p class="mb-0">(including VAT)</p>
+                          <p class="mb-0">(including all taxes)</p>
                         </strong>
                       </div>
                       <span><strong>₹<%= totalAmount  %></strong></span>
                     </li>
                   </ul>
       
-                  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
-                    Proceed to Buy
+                  <button  type="submit" data-mdb-button-init data-mdb-ripple-init id="proceedButton" class="btn btn-primary btn-lg btn-block">
+                    Place Your Order
                   </button>
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
+      </form>
+
       </section>
 
-
-      <div class="test">
-
-      </div>
-
-
-
+  
       <%- include('../../partials/userFooter.ejs')  %>
       <script src="/js/userjs/purchase/checkout.js"></script>
     

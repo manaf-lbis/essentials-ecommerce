@@ -6,7 +6,6 @@ function getUserIdFromSession(req) {
   return req.session?._id ?? req.session.passport?.user;
 }
 
-
 const isAuthenticated =async (req, res, next) => {
 
 

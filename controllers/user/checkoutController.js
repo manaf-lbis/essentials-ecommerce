@@ -17,7 +17,14 @@ const getCheckutPage = async (req,res)=>{
 
         const userId = getUserIdFromSession(req);
 
-        let userAddress = await Address.findOne({userId}) ?? [] ;
+        let userAddress = await Address.findOne(
+            {userId,'address.isBlocked':true},
+
+            {
+                address: { $elemMatch: { isBlocked: false } } 
+            }
+
+        ) ?? [] ;
 
         const {totalAmount,totalItems} = await cartController.getCartDetails(req);
 

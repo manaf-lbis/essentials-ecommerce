@@ -1,0 +1,152 @@
+<html lang="en">
+
+<head>
+    <%-include('../../partials/htmlHeadUser.ejs',{csspath:'/css/userCss/purchase/cart.css'}) %>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+</head>
+
+<body class="d-flex flex-column">
+
+
+    <%- include('../../partials/userNavbar.ejs') %>
+
+        <header>
+            <section class="h-100 gradient-custom">
+                <div class="container py-5">
+
+
+                    <div class="row d-flex justify-content-center my-4">
+                        <div class="col-md-10">
+
+
+                            <!-- card -->
+                             <% for(let order of orders){  %>
+                            <div class="card mb-4">
+                                <div class="card-header px-3 py-3">
+                                    <div class="row container-fluid">
+                                        <div class="col-lg-5">
+                                            <table>
+                                                <tr>
+                                                    <th class="pe-5">Order Id</th>
+                                                    <th>Deliver to </th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pe-5"><%= order.orderId %></td>
+                                                    <td><%= order.address.fullName%></td>
+                                                </tr>
+                    
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <table>
+                                                <tr>
+                                                    <th class="pe-5">Ordered Date</th>
+                                                </tr>
+                                                <tr >
+                                                    <td><%= order.orderDate.toString().substring(4,15)%></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                       
+
+                                    </div>
+                                </div>
+
+                                <% for(let product of order.orderItems){ %>
+                                <!-- if multiple products in single order card body iterate  -->
+                                <div class="card-body">
+                                    <!-- Single item -->
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                            <!-- Image -->
+                                            <div class="bg-image hover-overlay hover-zoom ripple rounded"
+                                                data-mdb-ripple-color="light">
+                                                <img src="<%= product.productId.productImage[0]%>" class="w-50" alt="Blue Jeans Jacket" />
+                                                <a href="#!">
+                                                    <div class="mask"
+                                                        style="background-color: rgba(251, 251, 251, 0.2)">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <!-- Image -->
+                                        </div>
+
+                                        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                            <!-- Data -->
+                                            <p><strong><%= product.productId.productName.substring(0,45)%></strong></p>
+                                            <p>Color:<%= product.productId.color%></p>
+                                            <p>Price:<%= product.productId.sellingPrice%></p>
+                                            <p>Qty:<%= product.quantity%></p>
+                                                
+                                                
+                                            <% if(product.status === 'Pending'){ %>
+                                                <span>Order Status : </span><span class="pe-5 text-warning fw-bold">Pending</span>
+                                            <% }else if(product.status === 'Processing'){ %>
+                                                <span>Order Status : </span><span class="pe-5 text-info fw-bold">Processing</span>
+                                            <% }else if(product.status === 'Shipped'){ %>
+                                                <span>Order Status : </span><span class="pe-5 text-primary fw-bold">Shipped</span>
+                                            <% } else if(product.status === 'Delivered'){ %>
+                                                <span>Order Status : </span><span class="pe-5 text-success fw-bold">Delivered</span>
+                                            <% } else if(product.status === 'Cancelled'){ %>
+                                                <span>Order Status : </span><span class="pe-5 text-Danger fw-bold">Order Cancelled By user</span>
+                                            <% } else if(product.status === 'Rejected'){ %>
+                                                <span>Order Status : </span><span class="pe-5 text-Danger fw-bold">Order Rejected by admin</span>
+                                            <% } %>
+
+                                            <div>
+                                                <% if(product?.deliveryDate){ %>
+                                                <span>Delivered on : </span><small class="pe-5 text-info fw-bold"><%=product?.deliveryDate.toString().substring(0,24)  %></small>
+                                                <% } %>
+                                            </div>
+                                                  
+
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                            <% if(product.status !== 'Cancelled' && product.status !== 'Delivered' && product.status !== 'Rejected' ){ %>
+                                            <a id="cancelOrderBtn" href="/cancelOrder/?orderId=<%= order.orderId%>&productId=<%= product.productId._id %> ">
+                                                <button type="button"  class="btn btn-outline-danger w-100">Cancel Order</button>
+                                            </a>
+                                            <% } %>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="line"></div>
+                                <!-- card body end  -->
+                                <% } %>
+
+
+                            </div>
+                            <!-- card ends -->
+                             <% } %>
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </section>
+        </header>
+
+
+        <footer>
+            <%- include('../../partials/userFooter.ejs') %>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="/js/userjs/purchase/orders.js"></script>
+
+</body>
+
+</html>

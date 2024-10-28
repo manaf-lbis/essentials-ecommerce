@@ -1,12 +1,18 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const { v4: uuid } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const orderSchema = new Schema({
+
   orderId: {
     type: String,
-    default: uuid(),
+    default: () => uuidv4().slice(-12),
     unique: true,
+  },
+  userId:{
+    type:Schema.Types.ObjectId,
+    ref:'User',
+    required:true
   },
   orderItems: [
     {
@@ -24,6 +30,15 @@ const orderSchema = new Schema({
         required: true,
         default: 0,
       },
+      status: {
+        type: String,
+        required: true,
+        default:'Pending',
+        enum: ['Pending', 'Processing', 'Shipped', 'Delivered','Cancelled','Rejected'],
+      },
+      deliveryDate: {
+        type: Date,
+      },
     },
   ],
   totalPrice: {
@@ -40,26 +55,57 @@ const orderSchema = new Schema({
     default: 0,
   },
   address: {
-    type: Schema.Types.ObjectId,
-    ref: 'Address',
-    required: true,
+
+    fullName: {
+      type: String,
+      required: true,
+    },
+    houseName: {
+      type: String,
+      required: true,
+    },
+    area: {
+      type: String,
+      required: true,
+    },
+    street: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    pincode: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    isBlocked:{
+      type:Boolean
+    }
+
   },
   orderDate: {
     type: Date,
     default: Date.now,
   },
-  deliveryDate: {
-    type: Date,
-  },
-  status: {
-    type: String,
-    required: true,
-    enum: ['Pending', 'processing', 'Shipped', 'Delivered'],
-  },
   couponApplied: {
     type: Boolean,
     default: false,
   },
+  paymentMethod:{
+    type:String,
+    required:true
+  }
+
 });
 
 const Order = mongoose.model('Order', orderSchema);

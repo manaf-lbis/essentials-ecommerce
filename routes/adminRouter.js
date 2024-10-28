@@ -5,7 +5,7 @@ const adminController = require('../controllers/admin/adminController');
 const userController = require('../controllers/admin/userController');
 const categoryController = require('../controllers/admin/categoryController');
 const productController = require('../controllers/admin/productControllers');
-const orderController = require('../controllers/admin/orderController');
+const ordersController = require('../controllers/admin/ordersController');
 // const offerController = require('../controllers/admin/offerController');
 // const couponController = require('../controllers/admin/couponController');
 const auth = require('../middlewares/usersMiddleware');
@@ -46,7 +46,10 @@ router.post('/updateProduct', auth.adminAuth, productController.updateProduct);
 
 
 //orders
-router.get('/orders', auth.adminAuth);
+router.get('/orders', auth.adminAuth,ordersController.getOrders);
+router.get('/updateOrderStatus', auth.adminAuth,ordersController.orderStatusUpdate);
+
+
 
 //offers
 router.get('/offers');

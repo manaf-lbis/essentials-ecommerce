@@ -8,6 +8,8 @@ const forgotPassword = require('../controllers/user/forgotPasswordController');
 const profileController = require('../controllers/user/profileController');
 const cartController = require('../controllers/user/cartController')
 const checkoutController = require('../controllers/user/checkoutController')
+const orderController = require('../controllers/user/orderController');
+const commentRatingController = require('../controllers/user/commentRatingController');
 
 
 // google auth 
@@ -50,7 +52,21 @@ router.post('/addToCart',userMiddleware.isAuthenticated,cartController.addToCart
 router.get('/removeCartItem',userMiddleware.isAuthenticated,cartController.removeCartItem)
 
 // checkout
-router.get('/checkout',checkoutController.getCheckutPage)
+router.get('/checkout',userMiddleware.isAuthenticated,checkoutController.getCheckutPage)
+
+///order
+router.get('/orders',userMiddleware.isAuthenticated,orderController.allOrders);
+router.post('/placeOrder',userMiddleware.isAuthenticated,orderController.placeOrder);
+router.get('/cancelOrder',userMiddleware.isAuthenticated,orderController.cancelOrder);
+
+//comments and rating 
+router.post('/comment',userMiddleware.isAuthenticated,commentRatingController.addComment);
+
+
+
+
+
+
 
 
 module.exports = router;
