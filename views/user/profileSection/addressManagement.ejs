@@ -1,7 +1,9 @@
 <html lang="en">
-<%- include('../../partials/htmlHeadUser.ejs',{csspath:'/css/userCss/profile/address.css'}) %>
-    <link rel="stylesheet" href="/css/commonCss/userProfileLeft/userProfileLeftbar.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+<%- include('../../partials/htmlHeadUser.ejs',{csspath:'/css/userCss/profile/address.css'}) %>
+<link rel="stylesheet" href="/css/commonCss/userProfileLeft/userProfileLeftbar.css" />
+  
     <body>
         <%- include('../../partials/userNavbar.ejs') %>
 
@@ -25,10 +27,15 @@
 
                                         <p>
                                             <%= `${ele.fullName },${ele.houseName },${ele.area},${ele.street
-                                                },${ele.pincode }` %>
+                                                },${ele.pincode } ${ele.defaultAddress ? '(Default)' : ''}` %>
                                         </p>
+                                        <div>
+                                            <img class="me-2 editBtn" addressId="<%=ele._id%>" src="/assets/images/edit.png" alt="">
 
-                                            <img addressId="<%=ele._id%>" class="deleteBtn" src="/assets/images/delete1.png" alt="">
+                                            <img addressId="<%=ele._id%>" class="deleteBtn"
+                                                src="/assets/images/delete1.png" alt="">
+                                        </div>
+
                                     </li>
 
 
@@ -37,114 +44,172 @@
 
 
                             </ul>
-                            <button type="button" onclick="addressSec()"
-                                class="btn btn-link text-capitalize text-primary">
-                                Add Address +
-                            </button>
+
                         </div>
 
 
-                        <!-- address adding portion -->
-                        <section id="addressAddingSec" class="d-none">
-                            <h5>Add Address</h5>
-                            <div class="line"></div>
+                        <button type="button" onclick="clearAllField()" class="btn btn-primary mt-3" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Add New Address
+                        </button>
 
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-xs-12">
-
-                                        <form class="form-horizontal" method="post" action="/addNewAddress"
-                                            id="addressAddingForm" role="form">
-                                            <div class="form-group">
-                                                <label for="fullName" class="col-sm-2 control-label">Full Name</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="fullName"
-                                                        name="fullName" placeholder="Full Name" />
-                                                    <span class="text-danger" id="fullNameErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="houseName" class="col-sm-2 control-label">Address</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="houseName"
-                                                        name="houseName" placeholder="Address Line" />
-                                                    <span class="text-danger" id="houseNameErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="area" class="col-sm-2 control-label">Area</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="area" name="area"
-                                                        placeholder="Area" />
-                                                    <span class="text-danger" id="areaErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="street" class="col-sm-2 control-label">Street</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="street" name="street"
-                                                        placeholder="Street" />
-                                                    <span class="text-danger" id="streetErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="city" class="col-sm-2 control-label">City</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="city" name="city"
-                                                        placeholder="City" />
-                                                    <span class="text-danger" id="cityErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="state" class="col-sm-2 control-label">State</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="state" name="state"
-                                                        placeholder="State" />
-                                                    <span class="text-danger" id="stateErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="pincode" class="col-sm-2 control-label">Postal code</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="pincode" name="pincode"
-                                                        maxlength="6" placeholder="Postal code" />
-                                                    <span class="text-danger" id="pincodeErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="phone" class="col-sm-2 control-label">Phone</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="phone" name="phone"
-                                                        maxlength="10" placeholder="Phone number" />
-                                                    <span class="text-danger" id="phoneErr"></span>
-                                                </div>
-                                            </div>
-
-                                            <button type="submit" id="newAddressSubmit"
-                                                class="btn btn-success">Success</button>
-                                        </form>
-
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Add New Address</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
+                                    <div class="modal-body">
+
+
+                                        <form method="post" action="/addNewAddress" id="addressAddingForm" role="form">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label id="name-label" for="fullName">Full Name</label>
+                                                        <input type="text" id="fullName" name="fullName"
+                                                            placeholder="Enter your name" class="form-control" >
+                                                            <small class="text-danger" id="fullNameErr"></small>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label id="name-label" for="houseName">House Name</label>
+                                                        <input type="text" id="houseName" name="houseName"
+                                                            placeholder="Enter your name" class="form-control" >
+                                                            <small class="text-danger" id="houseNameErr"></small>
+                                                    </div>
+                                                    <input hidden name="addressId" id="hiddenId"  type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label id="name-label" for="area">Area</label>
+                                                        <input type="text" id="area" name="area"
+                                                            placeholder="Enter your name" class="form-control" >
+                                                            <small class="text-danger"  id="areaErr"></small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label id="email-label" for="street">Street</label>
+                                                        <input type="text" id="street" name="street"
+                                                            placeholder="Enter your email" class="form-control">
+                                                            <small class="text-danger" id="streetErr"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label id="email-label" for="city">City</label>
+                                                        <input type="text" id="city" name="city"
+                                                            placeholder="City" class="form-control">
+                                                        <small class="text-danger" id="cityErr"></small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>State</label>
+                                                        <select id="state" name="state" class="form-control">
+                                                            <option disabled selected value>Select</option>
+                                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                            <option value="Assam">Assam</option>
+                                                            <option value="Bihar">Bihar</option>
+                                                            <option value="Chhattisgarh">Chhattisgarh</option>
+                                                            <option value="Goa">Goa</option>
+                                                            <option value="Gujarat">Gujarat</option>
+                                                            <option value="Haryana">Haryana</option>
+                                                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                            <option value="Jharkhand">Jharkhand</option>
+                                                            <option value="Karnataka">Karnataka</option>
+                                                            <option value="Kerala">Kerala</option>
+                                                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                            <option value="Maharashtra">Maharashtra</option>
+                                                            <option value="Manipur">Manipur</option>
+                                                            <option value="Meghalaya">Meghalaya</option>
+                                                            <option value="Mizoram">Mizoram</option>
+                                                            <option value="Nagaland">Nagaland</option>
+                                                            <option value="Odisha">Odisha</option>
+                                                            <option value="Punjab">Punjab</option>
+                                                            <option value="Rajasthan">Rajasthan</option>
+                                                            <option value="Sikkim">Sikkim</option>
+                                                            <option value="Tamil Nadu">Tamil Nadu</option>
+                                                            <option value="Telangana">Telangana</option>
+                                                            <option value="Tripura">Tripura</option>
+                                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                            <option value="Uttarakhand">Uttarakhand</option>
+                                                            <option value="West Bengal">West Bengal</option>
+                                                            <option value="Andaman and Nicobar Islands">Andaman and
+                                                                Nicobar Islands</option>
+                                                            <option value="Chandigarh">Chandigarh</option>
+                                                            <option value="Dadra and Nagar Haveli and Daman and Diu">
+                                                                Dadra and Nagar Haveli and Daman and Diu</option>
+                                                            <option value="Lakshadweep">Lakshadweep</option>
+                                                            <option value="Delhi">Delhi</option>
+                                                            <option value="Puducherry">Puducherry</option>
+
+                                                        </select>
+                                                        <small class="text-danger" id="stateErr"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label id="name-label" for="pincode">Picode</label>
+                                                        <input type="number" min="100000" max="999999" id="pincode" name="pincode"
+                                                            placeholder="Area Pincode" class="form-control" >
+                                                            <small class="text-danger" id="pincodeErr"></small>
+                                                    </div>
+                                                   <input name="defaultAddress" id="defaultAddress" value="true" type="checkbox"><label for="defaultAddress" > Set as default Address</label> 
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label id="email-label" for="phone">Phone</label>
+                                                        <input type="text" name="phone" id="phone"
+                                                            placeholder="Enter your phone No" class="form-control">
+                                                            <small class="text-danger" id="phoneErr"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" id="newAddressSubmit" class="btn btn-primary">Add Address</button>
+                                    </div>
+                                </form>
                                 </div>
                             </div>
-                        </section>
-                        <!-- address adding sec end -->
-
-
+                        </div>
 
                     </section>
             </section>
 
             <%- include('../../partials/userFooter.ejs') %>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script src="/js/userjs/profileSection/addressManagement.js"></script>
+
     </body>
 
 </html>

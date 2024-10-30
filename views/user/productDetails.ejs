@@ -41,7 +41,7 @@
                 <div class="row g-1 mt-0 ">
 
                   <div class="d-flex ">
-                    <div class="col-3"><input type="number" productid="<%= dbResult._id %>" name="quantity"
+                    <div class="col-3"><input type="number" max="5" productid="<%= dbResult._id %>" name="quantity"
                         class="form-control border-dark-subtle input-number quantity" value="1" onkeydown="return false;"
                         min="0" max=""></div>
 
@@ -100,6 +100,12 @@
                 <th>Size</th>
                 <td>
                   <%= dbResult.size %>
+                </td>
+              </tr>
+              <tr>
+                <th>Available Stock</th>
+                <td>
+                  <%= dbResult.quantity%> pcs.
                 </td>
               </tr>
 
@@ -223,7 +229,7 @@
                             <div class="row g-1 mt-2">
                               <div class="col-3"><input type="number" productid="<%= product._id %>" name="quantity"
                                   class="form-control border-dark-subtle input-number quantity" value="1"
-                                  onkeydown="return false;" min="0" max=""></div>
+                                  onkeydown="return false;" min="0" max="5"></div>
                               <div class="col-7"><a class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"><svg width="18"
                                     height="18">
                                     <use xlink:href="#cart"></use>

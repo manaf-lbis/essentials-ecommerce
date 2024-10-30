@@ -2,22 +2,52 @@ const Category = require('../../models/categorySchema');
 const Product = require('../../models/productSchema');
 const { products } = require('./productControllers');
 
+
+
+
 const listCategory = async (req, res) => {
-    // const categories = await Category.find({isBlocked:false});
+    
+    try {
 
-    const dbData = await Category.aggregate([
-        {
-            $lookup: {
-                from: 'products',
-                localField: '_id',
-                foreignField: 'category',
-                as: 'products',
+        // pagenation 
+        let currentpage = req.query.currentpage || 1 ;
+        const limit = 5;
+        
+        const totalPages = Math.ceil(await Category.countDocuments() / limit )
+
+        currentpage = currentpage >= totalPages ? totalPages : currentpage ;  
+        currentpage = currentpage <= 0 ? 1 : currentpage
+
+        const skip = limit * (currentpage - 1);
+        
+    
+
+        const dbData = await Category.aggregate([
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: '_id',
+                    foreignField: 'category',
+                    as: 'products',
+                },
             },
-        },
-    ]);
+        ]).skip(skip).limit(limit);
+    
+    
+        return res.render('admin/category', { dbData, currentpage });
 
-    return res.render('admin/category', { dbData });
+        
+    } catch (error) {
+        console.log(error);
+        res.render('admin/pagenotFound');;
+    }
+
+   
 };
+
+
+
+
 
 const addCategoryPage = (req, res) => {
     try {
@@ -27,19 +57,23 @@ const addCategoryPage = (req, res) => {
     }
 };
 
+
+
 const addCategory = async (req, res) => {
     try {
         const { categoryName, description } = req.body;
         const { filename } = req.file;
 
-        const isExist = await Category.findOne({categoryName:{$regex: new RegExp(categoryName,'i')} });
+        const categoryNameTrimmed = categoryName.trim();
+
+        const isExist = await Category.findOne({categoryName:{$regex: new RegExp(categoryNameTrimmed,'i')} });
 
         if (isExist) {
             return res.render('admin/addcategory', { message: 'Category Exists' });
         }
 
         const category = new Category({
-            categoryName,
+            categoryName: categoryNameTrimmed,
             description,
             image: filename,
         });
@@ -52,6 +86,8 @@ const addCategory = async (req, res) => {
         return res.status(500).redirect('/admin/pagenotFound');
     }
 };
+
+
 
 const removeCategory = async (req, res) => {
     try {
@@ -70,6 +106,8 @@ const removeCategory = async (req, res) => {
     }
 };
 
+
+
 const editCategoryPage = async (req, res) => {
     try {
         const _id = req.query.id;
@@ -80,6 +118,9 @@ const editCategoryPage = async (req, res) => {
         console.log(error);
     }
 };
+
+
+
 
 const updateCategory = async (req, res) => {
     try {
@@ -92,6 +133,10 @@ const updateCategory = async (req, res) => {
         console.log(error);
     }
 };
+
+
+
+
 
 const restoreCategory = async (req, res) => {
     try {
@@ -109,6 +154,10 @@ const restoreCategory = async (req, res) => {
         return res.status(500).redirect('/admin/pagenotFound');
     }
 };
+
+
+
+
 
 module.exports = {
     listCategory,

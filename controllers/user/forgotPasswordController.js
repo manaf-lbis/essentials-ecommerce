@@ -87,6 +87,9 @@ const forgotPassword = (req, res) => {
     res.render('user/forgotPassword')
 }
 
+
+
+
 module.exports = {
     verifyEmail,
     forgotPassword,

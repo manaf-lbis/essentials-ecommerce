@@ -16,15 +16,22 @@ const getCheckutPage = async (req,res)=>{
     try {
 
         const userId = getUserIdFromSession(req);
+        const cart = await Cart.findOne({userId});
 
+        //checking the cart is empty or not 
+        if(cart.products.length <=0){
+            return res.redirect('/cart')
+        }
+        
+        
         let userAddress = await Address.findOne(
-            {userId,'address.isBlocked':true},
-
-            {
-                address: { $elemMatch: { isBlocked: false } } 
-            }
-
+            {userId}
         ) ?? [] ;
+
+        
+
+        userAddress = userAddress.address.filter((ele)=> !ele.isBlocked );
+        
 
         const {totalAmount,totalItems} = await cartController.getCartDetails(req);
 
@@ -38,6 +45,7 @@ const getCheckutPage = async (req,res)=>{
         
     }
 }
+
 
 
 module.exports ={

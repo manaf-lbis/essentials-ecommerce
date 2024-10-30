@@ -12,4 +12,10 @@ p {
 .addressSec {
   display: flex;
   align-items: center;
+}
+
+#editIcon {
+  width: 25px;
+  cursor: pointer;
+  margin-left: auto;
 }/*# sourceMappingURL=checkout.css.map */

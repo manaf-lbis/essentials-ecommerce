@@ -78,6 +78,30 @@
                             </div>
                         </div>
 
+
+                        <!-- pagenation -->
+                        <Section class="d-flex justify-content-center mt-3">
+                            <div aria-label="Page navigation example ">
+                            <ul class="pagination">
+                              <li class="page-item">
+                                <a class="page-link" href="/admin/category/?currentpage=<%= currentpage-1 %>" aria-label="Previous">
+                                  <span aria-hidden="true">&laquo;</span>
+                                  <span class="sr-only">Previous</span>
+                                </a>
+                              </li>
+                         
+                              <li class="page-item"><a class="page-link" ><%= currentpage %></a></li>
+                            
+                              <li class="page-item">
+                                <a class="page-link" href="/admin/category/?currentpage=<%= Number(currentpage)+1 %>" aria-label="Next">
+                                  <span aria-hidden="true">&raquo;</span>
+                                  <span class="sr-only">Next</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </Section>
+
                     </div>
             </div>
 

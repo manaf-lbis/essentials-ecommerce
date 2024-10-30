@@ -31,12 +31,18 @@ router.post('/verifyEmail',forgotPassword.verifyEmail);
 router.post('/verifyOtp',forgotPassword.verifyOtp);
 router.post('/changePassword',forgotPassword.changePassword);
 
+
 // profile section 
 router.get('/profile',userMiddleware.isAuthenticated,profileController.profilePage);
 router.post('/updateUser',userMiddleware.isAuthenticated,profileController.updateUser);
 router.get('/address',userMiddleware.isAuthenticated,profileController.addressPage);
 router.post('/addNewAddress',userMiddleware.isAuthenticated,profileController.addNewAddress);
 router.get('/removeAddress',userMiddleware.isAuthenticated,profileController.removeAddress);
+router.get('/addressDataForEdit',userMiddleware.isAuthenticated,profileController.addressDataForEdit);
+router.post('/updateAddress',userMiddleware.isAuthenticated,profileController.updateAddress);
+router.get('/resetPassword',userMiddleware.isAuthenticated,profileController.resetPassword)
+
+
 
 
 

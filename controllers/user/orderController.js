@@ -2,7 +2,8 @@ const Order = require('../../models/orderSchema');
 const Cart = require('../../models/cartSchema');
 const mongoose = require('mongoose');
 const { products } = require('../admin/productControllers');
-const Address = require('../../models/addressSchema')
+const Address = require('../../models/addressSchema');
+const Product = require('../../models/productSchema')
 
 
 
@@ -15,11 +16,14 @@ async function createOrder(orderInfo) {
 
     try {
 
+
         const {
             paymentMethod,
             deliveryAddress,
             userId
         } = orderInfo;
+
+        // finding the cart of user and proceeding with cart data and quantity
 
         // find the cart and get the product and lookup for products collection for products details
         const cartItems = await Cart.aggregate([
@@ -35,18 +39,43 @@ async function createOrder(orderInfo) {
             }
         ]);
 
+      
 
-        // creating order items list with productId, qty, price
+        // // creating order items list with productId, qty, price
+        // const orderItems = [];
+        // cartItems[0].products.forEach((ele, index) => {
+
+        //     orderItems.push({
+        //         productId: ele.productId,
+        //         quantity: ele.quantity,
+        //         price: cartItems[0].productDetails[index].sellingPrice
+
+        //     });
+        // });
+
+
         const orderItems = [];
-        cartItems[0].products.forEach((ele, index) => {
-
+        for (const [index, ele] of cartItems[0].products.entries()) {
             orderItems.push({
                 productId: ele.productId,
                 quantity: ele.quantity,
                 price: cartItems[0].productDetails[index].sellingPrice
-
             });
-        });
+
+            // Reduce quantity in the Product collection
+            const updatedProduct = await Product.findOneAndUpdate(
+                { _id: ele.productId, quantity: { $gte: ele.quantity } },
+                { $inc: { quantity: -ele.quantity } }, 
+                { new: true }
+            );
+
+         
+            if (!updatedProduct) {
+                throw new Error(`Insufficient stock for product ${ele.productId}`);
+            }
+        }
+
+
 
         //calculationg total price
         const totalPrice = orderItems.reduce((acc, ele) => {
@@ -54,7 +83,7 @@ async function createOrder(orderInfo) {
         }, 0);
 
 
-        //adderess finding wih is 
+        //adderess finding  
         let address = await Address.findOne(
             {
                 userId: userId,

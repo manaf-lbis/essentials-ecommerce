@@ -5,7 +5,15 @@
   font-family: inter, sans-serif;
 }
 
+body {
+  font-family: "Inter", sans-serif;
+}
+
 a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
   text-decoration: none;
   color: black;
 }
@@ -36,4 +44,7 @@ a {
 }
 #rightSection #list li img {
   height: 25px;
+}
+#rightSection .deleteBtn, #rightSection .editBtn {
+  cursor: pointer;
 }/*# sourceMappingURL=address.css.map */

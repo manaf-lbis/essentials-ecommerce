@@ -37,19 +37,19 @@ const addressPage = async (req, res) => {
         const _id = req.session?._id ?? req.session.passport?.user;
 
         //checking is any address exist
-        let addressDetails = await Address.findOne({userId:_id});
+        let addressDetails = await Address.findOne({ userId: _id });
 
-        if(addressDetails){
-            addressDetails = addressDetails.address.filter((ele)=>ele.isBlocked===false);
-        }else{
-            addressDetails=[]
+        if (addressDetails) {
+            addressDetails = addressDetails.address.filter((ele) => ele.isBlocked === false);
+        } else {
+            addressDetails = []
         }
 
-        const userData = await User.findOne({_id})
+        const userData = await User.findOne({ _id })
 
-        res.render('user/profileSection/addressManagement',{addressDetails,userData});
+        res.render('user/profileSection/addressManagement', { addressDetails, userData });
 
-        
+
     } catch (error) {
         console.log(error);
         res.render('user/pagenotFound');
@@ -60,23 +60,45 @@ const addressPage = async (req, res) => {
 
 const addNewAddress = async (req, res) => {
     try {
-        const { fullName, houseName, area, street, city, state, pincode, phone } = req.body;
+
+        const { fullName, houseName, area, street, city, state, pincode, phone, defaultAddress,requestPage } = req.body;
         const _id = req.session?._id ?? req.session.passport?.user;
 
         //checking is any user address exixt in this particular id
         const result = await Address.findOne({ userId: _id })
 
 
+
         if (result) {
 
-            await Address.updateOne({ userId: _id }, { $push: { address: { fullName, houseName, area, street, city, state, pincode, phone } } });
-            res.status(200).redirect('/address')
+            // if the new address id default clear all previous default address
+            if (defaultAddress) {
+                await Address.updateMany({ userId: _id, 'address.defaultAddress': true }, { 'address.$.defaultAddress': false })
+            }
+
+            await Address.updateOne({ userId: _id }, { $push: { address: { fullName, houseName, area, street, city, state, pincode, phone, defaultAddress } } });
+           
+            
+            // if the request from checkout page redirect to checkout page
+            if(requestPage){
+                return res.redirect('/checkout')
+
+             }else{
+                return res.status(201).redirect('/address')
+             }
 
         } else {
 
-            const address = new Address({ userId: _id, address: [{ fullName, houseName, area, street, city, state, pincode, phone }] });
-            await address.save()
-            res.status(201).redirect('/address')
+            const address = new Address({ userId: _id, address: [{ fullName, houseName, area, street, city, state, pincode, phone, defaultAddress }] });
+            await address.save();
+
+            
+            if(requestPage){
+               return res.redirect('/checkout')
+            }else{
+                res.status(201).redirect('/address')
+            }
+            
 
         }
 
@@ -88,24 +110,113 @@ const addNewAddress = async (req, res) => {
 
 
 
-const removeAddress =async (req,res)=>{
+const removeAddress = async (req, res) => {
 
     try {
         const addressId = req.query._id;
-        const {_id} = req.session;
+        const { _id } = req.session;
 
         const result = await Address.updateOne(
             { 'address._id': addressId }, // Target the specific address by its _id
             { $set: { 'address.$.isBlocked': true } } // Use $ positional operator to update isBlocked
-          );
+        );
 
-       res.status(200).json({message:'Address sucessfully removed'})
-          
-        
+        res.status(200).json({ message: 'Address sucessfully removed' })
+
+
     } catch (error) {
         console.log(error);
-        res.status(500).json({message:'internal server error'})
+        res.status(500).json({ message: 'internal server error' })
+
+    }
+}
+
+
+//requiring individual address data for edit
+const addressDataForEdit = async (req, res) => {
+    try {
+        const userId = req.session?._id ?? req.session.passport?.user;
+        const addressId = req.query.addressId;
+
+        const addressData = await Address.findOne({ userId }, { address: { $elemMatch: { _id: addressId } } })
+
+
+        res.status(200).json(addressData)
+
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(400).json({ Message: 'something went Wrong' })
+
+    }
+}
+
+const updateAddress = async (req, res) => {
+    try {
+
+        const userId = req.session?._id ?? req.session.passport?.user;
+
+        const { fullName, houseName, area, street, city, state, pincode, phone, defaultAddress, addressId, requestPage } = req.body;
+
+        // checking address is exist 
+        const addressExist = await Address.find({ userId, 'address._id': addressId });
+
+        if (addressExist) {
+            // the new address is set as default clear all defalut address
+            if (defaultAddress) {
+                await Address.updateMany({ userId, 'address.defaultAddress': true }, { 'address.$.defaultAddress': false })
+            }
+
+            await Address.updateOne({ userId, 'address._id': addressId },
+                {
+                    $set: {
+                        'address.$.fullName': fullName,
+                        'address.$.houseName': houseName,
+                        'address.$.area': area,
+                        'address.$.street': street,
+                        'address.$.city': city,
+                        'address.$.state': state,
+                        'address.$.pincode': pincode,
+                        'address.$.phone': phone,
+                        'address.$.defaultAddress': defaultAddress
+                    }
+                }
+            )
+        }
+
+
+           // if the request from checkout page redirect to checkout page
+         if(requestPage){
+            return res.redirect('/checkout')
+
+         }else{
+            return res.status(201).redirect('/address')
+
+         }
+      
+    } catch (error) {
+        console.log(error);
+        res.render('user/pageNotFound')
+    }
+
+}
+
+//reset Password
+
+const resetPassword = async (req,res)=>{
+    try {
+
+        const _id = req.session?._id ?? req.session.passport?.user;
+
+        const userData = await User.findOne({ _id });
+        res.render('user/profileSection/resetPassword',{userData});
         
+    } catch (error) {
+
+        console.log(error);
+        res.render('user/pagenotFound');
+
     }
 }
 
@@ -117,5 +228,9 @@ module.exports = {
     updateUser,
     addressPage,
     addNewAddress,
-    removeAddress
+    removeAddress,
+    addressDataForEdit,
+    updateAddress,
+    resetPassword,
+
 };

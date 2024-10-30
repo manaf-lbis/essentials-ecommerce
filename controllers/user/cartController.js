@@ -122,12 +122,14 @@ const addToCart = async (req, res) => {
         const user_id = getUserIdFromSession(req)
         const { _id, quantity } = req.body;
 
-        if (quantity <= 0) {
-            return res.status(400).json({ message: 'give minimum cart value' })
+        if (quantity <= 0 || quantity >= 5) {
+            return res.status(400).json({ message: 'not allowed' })
         }
 
         // checking is product Exist or product is blocked
         const productIsExist = await Product.findOne({_id,isBlocked:false});
+
+        
 
         let status =false;
 
@@ -137,6 +139,11 @@ const addToCart = async (req, res) => {
 
         }else{
            return res.status(400).json({ message: 'product doesnt exist' })
+        }
+
+
+        if (quantity > productIsExist ) {
+            return res.status(400).json({ message: 'out of stock ' })
         }
         
 
@@ -174,9 +181,6 @@ const removeCartItem = async (req, res) => {
         console.log(error);
         res.render('user/pageNotFound')
     }
-
-
-
 }
 
 

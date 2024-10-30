@@ -1,15 +1,36 @@
 
-function addressSec() {
-
-    document.getElementById('addressAddingSec').classList.toggle('d-none');
-    document.getElementById('addressList').classList.toggle('d-none');
-
-}
 
 const newAddressSubmit = document.getElementById('newAddressSubmit');
-const addressAddingForm = document.getElementById('addressAddingForm')
+const addressAddingForm = document.getElementById('addressAddingForm');
+
+console.log(addressAddingForm);
 
 
+
+function clearAllField() {
+    console.log("clearAllField is called");
+
+    document.getElementById('fullName').value = ''
+    document.getElementById('houseName').value = ""
+    document.getElementById('area').value = ""
+    document.getElementById('street').value = ""
+    document.getElementById('city').value = ""
+    document.getElementById('state').value = ""
+    document.getElementById('pincode').value = ""
+    document.getElementById('phone').value = ""
+}
+
+function clearAllErr() {
+    // Reset error messages
+    document.getElementById('fullNameErr').innerText = "";
+    document.getElementById('houseNameErr').innerText = "";
+    document.getElementById('areaErr').innerText = "";
+    document.getElementById('streetErr').innerText = "";
+    document.getElementById('cityErr').innerText = "";
+    document.getElementById('stateErr').innerText = "";
+    document.getElementById('pincodeErr').innerText = "";
+    document.getElementById('phoneErr').innerText = "";
+}
 
 function validateForm() {
     // Get form values
@@ -24,16 +45,7 @@ function validateForm() {
 
     let isValid = true;
 
-    // Reset error messages
-    document.getElementById('fullNameErr').innerText = "";
-    document.getElementById('houseNameErr').innerText = "";
-    document.getElementById('areaErr').innerText = "";
-    document.getElementById('streetErr').innerText = "";
-    document.getElementById('cityErr').innerText = "";
-    document.getElementById('stateErr').innerText = "";
-    document.getElementById('pincodeErr').innerText = "";
-    document.getElementById('phoneErr').innerText = "";
-
+    clearAllErr()
 
     if (fullName === "") {
         document.getElementById('fullNameErr').innerText = "Full Name is required.";
@@ -84,9 +96,14 @@ function validateForm() {
     return isValid;
 }
 
-//sending address request
+
+
+
+//sending address ADDING request
 newAddressSubmit.addEventListener('click', (event) => {
     event.preventDefault();
+
+
 
     const validation = validateForm();
 
@@ -97,6 +114,7 @@ newAddressSubmit.addEventListener('click', (event) => {
 })
 
 
+
 const deleteIcon = document.querySelectorAll('.deleteBtn');
 
 deleteIcon.forEach((icon) => {
@@ -104,7 +122,8 @@ deleteIcon.forEach((icon) => {
 })
 
 
-async function  deleteClicked(e) {
+//FUNCTION THAT TRIGGERING WHEN CLICKIGN DELETE BUTTON 
+async function deleteClicked(e) {
 
     const _id = e.currentTarget.getAttribute('addressId')
 
@@ -116,43 +135,89 @@ async function  deleteClicked(e) {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!"
-      }).then((result) => {
-        
+    }).then((result) => {
+
+        //CALLING FUNCTION IF DELETE IS CONFIRMED 
         if (result.isConfirmed) {
             sentRequest(_id);
         }
 
-      });
+    });
 
 
 }
 
+//SENDING DELETING REQUEST
+async function sentRequest(_id) {
 
-async function sentRequest(_id){
-
-    const response =  await fetch(`/removeAddress?_id=${_id}`, {
+    const response = await fetch(`/removeAddress?_id=${_id}`, {
         methord: "GET",
         headers: {
             'content-type': 'application/json'
         },
     })
 
-    if(response.ok){
-       await Swal.fire({
+    if (response.ok) {
+        await Swal.fire({
             title: "Sucess",
             text: " Address Deleted sucessfully",
             icon: "success"
-          });
-          window.location.href = '/address'
-    }else{
-      await  Swal.fire({
+        });
+        window.location.href = '/address'
+    } else {
+        await Swal.fire({
             title: "error",
             text: "Internal server err",
             icon: "error"
-          });
-          window.location.href = '/address'
+        });
+        window.location.href = '/address'
     }
 
 
 }
+
+//edit address logic
+const editBtn = document.querySelectorAll('.editBtn');
+
+editBtn.forEach((icon) => {
+    icon.addEventListener('click', editBtnClicked)
+})
+
+
+async function editBtnClicked(event) {
+
+    event.preventDefault();
+    clearAllErr()
+    clearAllField()
+
+    const _id = event.currentTarget.getAttribute('addressId')
+
+    const response = await fetch(`/addressDataForEdit/?addressId=${_id}`, {
+        method: 'get',
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+
+    const data = await response.json();
+
+    $('#exampleModalCenter').modal('show');
+
+    document.getElementById('fullName').value = data.address[0].fullName
+    document.getElementById('houseName').value = data.address[0].houseName
+    document.getElementById('area').value = data.address[0].area
+    document.getElementById('street').value = data.address[0].street
+    document.getElementById('city').value = data.address[0].city
+    document.getElementById('state').value = data.address[0].state
+    document.getElementById('pincode').value = data.address[0].pincode
+    document.getElementById('phone').value = data.address[0].phone
+    document.getElementById('defaultAddress').checked = data.address[0]?.defaultAddress
+    document.getElementById('hiddenId').value = data.address[0]._id
+
+
+    document.getElementById('newAddressSubmit').innerHTML = 'Save Changes';
+    document.getElementById('addressAddingForm').setAttribute('action', '/updateAddress')
+
+}
+
 

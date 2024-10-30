@@ -47,7 +47,7 @@
                       <p>Brand: <%= item.allProducts[0].brand %></p>
                       <p>Brand: ₹ <%= item.allProducts[0].sellingPrice %>/-</p>
 
-                      <a href="/removeCartItem/?_id=<%= item.allProducts[0]._id %>">
+                      <a id="removeBtn" href="/removeCartItem/?_id=<%= item.allProducts[0]._id %>">
                         <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-sm me-1 mb-2" data-mdb-tooltip-init
                           title="Remove item">
                             <i class="fas fa-trash  text-danger "></i>
@@ -123,11 +123,11 @@
                           <p class="mb-0">(Including all taxes)</p>
                         </strong>
                       </div>
-                      <span><strong>₹ <%= totalAmount  %></strong></span>
+                      <span><strong id="totalAmount">₹ <%= totalAmount  %></strong></span>
                     </li>
                   </ul>
       
-                  <a href="/checkout">
+                  <a id="checkoutBtn" href="/checkout">
                   <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
                     Proceed to Checkout
                   </button>
@@ -144,6 +144,8 @@
    <footer>
     <%- include('../../partials/userFooter.ejs')  %>
    </footer>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script  src="/js/userjs/purchase/cart.js"></script>
 
       
       
