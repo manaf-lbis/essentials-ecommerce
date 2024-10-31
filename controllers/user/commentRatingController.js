@@ -16,19 +16,14 @@ const addComment = async (req, res) => {
 
         if (commentExixt) {
             await Comments.updateOne({ productId }, { $push: { comments: { userId, comment } } })
+
         } else {
             const newComment = new Comments({
                 productId,
-                comments: [
-                    {
-                        userId,
-                        comment,
-                    },
-                ],
+                comments: [{userId,comment},],
             });
 
             await newComment.save();
-
         }
 
         res.redirect(`/product/${productId}`)
@@ -39,6 +34,21 @@ const addComment = async (req, res) => {
         res.render('user/pageNotFound')
     }
 };
+
+const addrating =(req,res)=>{
+    try {
+        
+
+
+        
+    } catch (error) {
+
+        console.log(error);
+        
+        
+    }
+
+}
 
 
 module.exports = {

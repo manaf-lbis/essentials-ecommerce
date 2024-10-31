@@ -44,9 +44,103 @@ checkoutBtn.addEventListener('click', (event) => {
   if (Number(totalAmount.innerHTML.substring(2)) <= 0) {
     Swal.fire("Add Product To Proceed");
 
-  }else{
+  } else {
     window.location.href = checkoutBtn.getAttribute('href')
 
   }
 
-})
+});
+
+
+// changing product quanntity
+const items = document.querySelectorAll('#items')
+items.forEach((ele) => ele.addEventListener('click', qtyChangeRqst));
+
+async function qtyChangeRqst(event) {
+  try {
+
+    const productId = event.target.closest('button').getAttribute('productId');
+    const input = event.target.closest('div').querySelector('input[type="number"]').value;
+    const priceOfItem = event.target.closest('.row').querySelector('.price').innerHTML;
+    const totalPriceTag = event.target.closest('.row').querySelector('.totalPrice');
+    
+    
+
+
+    
+
+    // if the cart qty reached 
+    if (Number(input) >= 5) {
+      event.target.closest('div').querySelector('input[type="number"]').value = 5;
+
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Max Qty Reached",
+        showConfirmButton: false,
+        timer: 1000,
+        width: '200px',
+        padding: '0.2rem',
+        backdrop: false
+      });
+
+    }
+
+    // qty change req to server
+    const response = await fetch(`/cartQtyChange/?productId=${productId}&count=${input}`, {
+      method: 'GET',
+      headers: {
+        'content-Type': 'application/json'
+      }
+    })
+
+    //if quantity is changed 
+    if (response.ok) {
+      const data = await response.json()
+      return updatePage(data,totalPriceTag,input,priceOfItem)
+    }
+
+
+    const responseData = await response.json();
+
+    if (responseData.message === 'Out of Quantity') {
+
+      // quantity is setting back to older
+      event.target.closest('div').querySelector('input[type="number"]').value = input - 1 === 0 ? input : input - 1;
+
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Out of Stock",
+        showConfirmButton: false,
+        timer: 1000,
+        width: '200px',
+        padding: '0.2rem',
+        backdrop: false
+      });
+
+    }
+
+  } catch (error) {
+    
+    console.log(error);
+
+  }
+}
+
+
+// page updating
+function updatePage (data,totalPriceTag,qty,priceOfItem){
+
+
+
+  document.getElementById('totalItems').innerHTML = `Items (${data.totalItems})`;
+  document.getElementById('totalAmount').innerHTML = `₹ ${data.totalAmount}` ;
+  //total amout of summarry
+  document.getElementById('price').innerHTML = `₹ ${data.totalAmount}`;
+  
+  // total price of individual item 
+  totalPriceTag.innerHTML = qty * priceOfItem 
+  
+}
+

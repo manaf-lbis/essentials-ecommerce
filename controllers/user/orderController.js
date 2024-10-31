@@ -16,7 +16,6 @@ async function createOrder(orderInfo) {
 
     try {
 
-
         const {
             paymentMethod,
             deliveryAddress,
@@ -39,19 +38,6 @@ async function createOrder(orderInfo) {
             }
         ]);
 
-      
-
-        // // creating order items list with productId, qty, price
-        // const orderItems = [];
-        // cartItems[0].products.forEach((ele, index) => {
-
-        //     orderItems.push({
-        //         productId: ele.productId,
-        //         quantity: ele.quantity,
-        //         price: cartItems[0].productDetails[index].sellingPrice
-
-        //     });
-        // });
 
 
         const orderItems = [];
@@ -133,7 +119,10 @@ const placeOrder =async (req, res) => {
 
         if(order){
             await Cart.deleteOne({userId:userId})
-            res.render('user/purchase/orderSuccessPage');
+
+           const orderDetails =  await Order.findOne({userId}).sort({orderDate:-1}).limit(1)
+           
+            res.render('user/purchase/orderSuccessPage',{orderDetails});
         }else{
             res.render('user/pageNotFound')
         }
@@ -148,11 +137,26 @@ const placeOrder =async (req, res) => {
 
 const allOrders = async (req,res)=>{
     try {
+
         const userId = getUserIdFromSession(req);
 
-       const orders = await Order.find({ userId }).populate('orderItems.productId').sort({orderDate:-1});
+          // pagenation 
+          let currentpage = req.query.currentpage || 1 ;
+          const limit = 5;
+          
+          const totalPages = Math.ceil(await Order.countDocuments({userId}) / limit )
+  
+          currentpage = currentpage >= totalPages ? totalPages : currentpage ;  
+          currentpage = currentpage <= 0 ? 1 : currentpage
+  
+          const skip = limit * (currentpage - 1);
+          
 
-       res.render('user/purchase/orders',{orders})
+      
+
+       const orders = await Order.find({ userId }).populate('orderItems.productId').sort({orderDate:-1}).skip(skip).limit(limit)
+
+       res.render('user/purchase/orders',{orders,currentpage})
 
         
     } catch (error) {

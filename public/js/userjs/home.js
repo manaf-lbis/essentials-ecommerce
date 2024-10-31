@@ -36,7 +36,7 @@ function getValues(event) {
   const quantity = card.querySelector('.quantity').value
   const productId = card.querySelector('.quantity').getAttribute('productid');
 
-  addToCart(quantity, productId)
+  addToCart(quantity, productId);
 }
 
 

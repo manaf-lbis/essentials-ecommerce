@@ -39,6 +39,10 @@ const orderSchema = new Schema({
       deliveryDate: {
         type: Date,
       },
+      isRated:{
+        type:Boolean,
+        default:false
+      }
     },
   ],
   totalPrice: {

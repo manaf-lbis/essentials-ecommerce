@@ -40,8 +40,8 @@ router.post('/addNewAddress',userMiddleware.isAuthenticated,profileController.ad
 router.get('/removeAddress',userMiddleware.isAuthenticated,profileController.removeAddress);
 router.get('/addressDataForEdit',userMiddleware.isAuthenticated,profileController.addressDataForEdit);
 router.post('/updateAddress',userMiddleware.isAuthenticated,profileController.updateAddress);
-router.get('/resetPassword',userMiddleware.isAuthenticated,profileController.resetPassword)
-
+router.get('/resetPassword',userMiddleware.isAuthenticated,profileController.resetPasswordPage)
+router.post('/resetPassword',userMiddleware.isAuthenticated,profileController.resetPassword)
 
 
 
@@ -56,6 +56,8 @@ router.get('/product/:id',userMiddleware.isAuthenticated,productsController.getD
 router.get('/cart',userMiddleware.isAuthenticated,cartController.getCartPage);
 router.post('/addToCart',userMiddleware.isAuthenticated,cartController.addToCart);
 router.get('/removeCartItem',userMiddleware.isAuthenticated,cartController.removeCartItem)
+router.get('/cartQtyChange',userMiddleware.isAuthenticated,cartController.changeCartQty)
+
 
 // checkout
 router.get('/checkout',userMiddleware.isAuthenticated,checkoutController.getCheckutPage)

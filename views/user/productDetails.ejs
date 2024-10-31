@@ -5,10 +5,13 @@
 
   <body>
     <%- include("../partials/userNavbar.ejs") %>
-      <div class="container pt-3">
-        <a href="/">Home/</a>
-        <a href="">Product/</a>
-      </div>
+
+    <section class=" container rounded-2 bg-light">
+      <ol class="d-flex align-items-center list-unstyled m-0 ">
+          <li><a class="text-decoration-none" href="/home">Home/</a></li>
+          <li><a class="text-decoration-none"  >ProductDetails</a></li>
+      </ol>
+    </section>
 
       <div class="container">
 
@@ -40,20 +43,26 @@
               <div class="addtoCartSec">
                 <div class="row g-1 mt-0 ">
 
-                  <div class="d-flex ">
+                  <div class="d-flex" id="" >
+
                     <div class="col-3"><input type="number" max="5" productid="<%= dbResult._id %>" name="quantity"
                         class="form-control border-dark-subtle input-number quantity" value="1" onkeydown="return false;"
-                        min="0" max=""></div>
+                        min="0" max="">
+                    </div>
 
-                    <div class="col-7"><a class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"><svg width="18" height="18">
+                    <div class="col-7"><a class="btn btn-primary rounded-1 p-2 fs-7 btn-cart "><svg width="18" height="18">
                           <use xlink:href="#cart"></use>
-                        </svg> Add to Cart</a></div>
+                        </svg> Add to Cart</a>
+                      </div>
 
                     <div class="col-6"><a class="btn btn-primary rounded-1 p-2 fs-7 "><svg width="18"
                       height="18">
                       <use xlink:href="#plus"></use>
-                    </svg> Buy Now</a></div>  
+                    </svg> Buy Now</a>
+                    </div>  
+
                 </div>
+
                 </div>
               </div>
             </div>

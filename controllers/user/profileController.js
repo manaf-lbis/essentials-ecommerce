@@ -1,5 +1,6 @@
 const User = require('../../models/userSchema');
 const Address = require('../../models/addressSchema')
+const bcrypt = require('bcrypt')
 
 const profilePage = async (req, res) => {
     try {
@@ -204,7 +205,7 @@ const updateAddress = async (req, res) => {
 
 //reset Password
 
-const resetPassword = async (req,res)=>{
+const resetPasswordPage = async (req,res)=>{
     try {
 
         const _id = req.session?._id ?? req.session.passport?.user;
@@ -220,6 +221,44 @@ const resetPassword = async (req,res)=>{
     }
 }
 
+const resetPassword = async (req,res)=>{
+    try {
+
+        const _id = req.session?._id ?? req.session.passport?.user;
+
+        const userData = await User.findOne({ _id });
+
+        const {existingPassword,newPassword} = req.body;
+        const {password} = userData;
+
+
+        const isMatch = await bcrypt.compare(existingPassword,password);
+
+       
+        if(isMatch){
+
+            const hashedNewPass = await bcrypt.hash(newPassword,10);
+
+            await User.updateOne({_id},{$set:{password:hashedNewPass}});
+            res.status(200).json({message:'password Updated Successfully'});
+        }else{
+
+            res.status(400).json({message:'password Not match'});
+        }
+        
+        
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).redirect('user/pagenotFound');
+
+    }
+}
+
+
+
+
+
 
 
 
@@ -231,6 +270,7 @@ module.exports = {
     removeAddress,
     addressDataForEdit,
     updateAddress,
-    resetPassword,
+    resetPasswordPage,
+    resetPassword
 
 };

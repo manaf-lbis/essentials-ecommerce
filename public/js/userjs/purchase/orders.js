@@ -27,3 +27,13 @@ cancelOrderBtn.addEventListener('click', (event) => {
         }
     });
 });
+
+
+
+const ratingSubmit = document.getElementById('ratingSubmit');
+
+ratingSubmit.addEventListener('click',()=>{
+    const comment = document.getElementById('comment').ariaValueMax;
+    
+
+})

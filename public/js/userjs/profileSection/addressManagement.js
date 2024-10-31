@@ -3,12 +3,8 @@
 const newAddressSubmit = document.getElementById('newAddressSubmit');
 const addressAddingForm = document.getElementById('addressAddingForm');
 
-console.log(addressAddingForm);
-
-
 
 function clearAllField() {
-    console.log("clearAllField is called");
 
     document.getElementById('fullName').value = ''
     document.getElementById('houseName').value = ""

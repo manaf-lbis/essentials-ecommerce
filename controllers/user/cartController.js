@@ -1,6 +1,7 @@
 const Cart = require('../../models/cartSchema');
 const mongoose = require('mongoose');
 const Product = require('../../models/productSchema');
+const { products } = require('../admin/productControllers');
 
 // getting user id from session 
 function getUserIdFromSession(req) {
@@ -25,24 +26,24 @@ async function getCartDetails(req) {
                     as: 'allProducts'
                 }
             },
-    
+
         ]);
-    
+
         let totalAmount = 0;
         let totalItems = 0;
-    
-    
+
+
         if (cartitems) {
-    
+
             cartitems.forEach((ele) => {
-              
+
                 totalAmount += ele.allProducts[0].sellingPrice * ele.products.quantity;
                 totalItems += ele.products.quantity;
             })
         }
-    
+
         return { totalAmount, totalItems, cartitems }
-        
+
     } catch (error) {
         console.log(error);
         throw error
@@ -55,7 +56,7 @@ async function getCartDetails(req) {
 const getCartPage = async (req, res) => {
     try {
 
-        const { totalAmount, totalItems, cartitems } = await getCartDetails(req)
+        const { totalAmount, totalItems, cartitems } = await getCartDetails(req);
 
         res.render('user/purchase/cart', { cartitems, totalAmount, totalItems })
 
@@ -127,25 +128,25 @@ const addToCart = async (req, res) => {
         }
 
         // checking is product Exist or product is blocked
-        const productIsExist = await Product.findOne({_id,isBlocked:false});
+        const productIsExist = await Product.findOne({ _id, isBlocked: false });
 
-        
 
-        let status =false;
 
-        if(productIsExist){
+        let status = false;
+
+        if (productIsExist) {
             // cart adding logic 
-           status = checkAndAdd(user_id, _id, quantity);
+            status = checkAndAdd(user_id, _id, quantity);
 
-        }else{
-           return res.status(400).json({ message: 'product doesnt exist' })
+        } else {
+            return res.status(400).json({ message: 'product doesnt exist' })
         }
 
 
-        if (quantity > productIsExist ) {
+        if (quantity > productIsExist) {
             return res.status(400).json({ message: 'out of stock ' })
         }
-        
+
 
         if (status) {
 
@@ -184,11 +185,59 @@ const removeCartItem = async (req, res) => {
 }
 
 
+const changeCartQty = async (req, res) => {
+    try {
+        const userId = getUserIdFromSession(req);
+
+        const { productId, count } = req.query;
+
+       const quantity =  await Product.findOne({_id:productId},{quantity:1});
+
+       
+
+      if( count < quantity.quantity){
+
+            const response = await Cart.findOneAndUpdate(
+                { userId, "products.productId": productId },
+                { $set: { 'products.$.quantity': Number(count) } },
+                {new:true}
+            )
+
+
+            //getiing cart data for updating the page
+            const { totalAmount, totalItems, cartitems } = await getCartDetails(req);
+
+        
+            res.status(200).json({ totalAmount, totalItems, cartitems});
+
+      }else{
+        res.status(400).json({message:'Out of Quantity'})
+      }
+
+
+
+       
+
+
+
+
+        
+
+    } catch (error) {
+        console.log(error);
+
+
+    }
+
+}
+
+
 module.exports = {
     addToCart,
     getCartPage,
     removeCartItem,
-    getCartDetails
+    getCartDetails,
+    changeCartQty
 };
 
 
