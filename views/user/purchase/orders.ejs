@@ -38,7 +38,7 @@
 
                             <!-- card -->
                              <% for(let order of orders){  %>
-                            <div class="card mb-4">
+                            <div class="mainCard card mb-4">
                                 <div class="card-header px-3 py-3">
                                     <div class="row container-fluid">
                                         <div class="col-lg-5">
@@ -48,7 +48,7 @@
                                                     <th>Deliver to </th>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pe-5"><%= order.orderId %></td>
+                                                    <td class="pe-5 orderId"><%= order.orderId %></td>
                                                     <td><%= order.address.fullName%></td>
                                                 </tr>
                     
@@ -124,15 +124,25 @@
                                             <% if(product.status !== 'Cancelled' && product.status !== 'Delivered' && product.status !== 'Rejected' ){ %>
                                             <a id="cancelOrderBtn" href="/cancelOrder/?orderId=<%= order.orderId%>&productId=<%= product.productId._id %> ">
                                                 <button type="button"  class="btn btn-outline-danger w-100">Cancel Order</button>
+                                               
                                             </a>
-                                            <% } else if(product.status === 'Delivered'){%>
+                                            <% } else if(product.status === 'Delivered' &&  product.isRated === false){%>
                                                 <!-- Button trigger modal -->
-                                                <button type="button" class="btn w-100 btn-outline-warning" data-toggle="modal" data-target="#exampleModalCenter">
+
+                                                 <input class="productId" hidden productId="<%= product.productId._id %>" >
+                                                <button type="button" class="btn w-100 btn-outline-warning ratingBtn" data-toggle="modal" data-target="#exampleModalCenter">
                                                     Rate the Product
                                                 </button>
                                                 
                                             <% } %>
+
+                                            <% if(product.isRated === true){%>
+                                                 <!-- rating -->
+                                                 <h6>Rating</h6>
+                                                <div data-coreui-read-only="true" data-coreui-precision="0.25" data-coreui-toggle="rating" data-coreui-value=" <%= product.rating%> "></div>
+                                            <% } %>
                                         </div>
+                                        
                                     </div>
 
 
@@ -192,7 +202,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Review and Ratin</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -202,7 +212,7 @@
                 <div class="d-flex flex-column align-items-center">
 
                     <div>
-                        <div id="myRating" data-coreui-size="lg" data-coreui-precision="0.5" data-coreui-toggle="rating" data-coreui-value="4.3" data-coreui-max="5"></div>
+                        <div id="myRating" data-coreui-size="lg" data-coreui-precision="0.5" data-coreui-toggle="rating" data-coreui-value="0" data-coreui-max="5"></div>
                     </div>
                   
                     <div class="form-group w-100">

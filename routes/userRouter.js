@@ -69,6 +69,9 @@ router.get('/cancelOrder',userMiddleware.isAuthenticated,orderController.cancelO
 
 //comments and rating 
 router.post('/comment',userMiddleware.isAuthenticated,commentRatingController.addComment);
+router.post('/rateProduct',userMiddleware.isAuthenticated,commentRatingController.addrating);
+
+
 
 
 

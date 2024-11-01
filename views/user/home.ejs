@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.6.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-/ElSMRaKgsWY7yc9is+yGoOmLb0lEnL0i8BqJoNBrejJNHx8+6ZSD0u13ea6fUn3" crossorigin="anonymous">
     <%- include('../partials/htmlHeadUser.ejs',{csspath:''})  %>
   <body>
 
@@ -179,19 +180,23 @@
                   </figure>
                   <div class="d-flex flex-column text-center">
                     <h3 class="fs-6 fw-normal"><%=product.productName.substring(0,22)+'...'%></h3>
-                    <div>
-                      <span class="rating">
-                        <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
-                        <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
-                        <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
-                        <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
-                        <svg width="18" height="18" class="text-warning"><use xlink:href="#star-half"></use></svg>
-                      </span>
-                      <span>(222)</span>
+                    
+                    <div class="d-flex justify-content-center align-items-center">
+                      <!-- rating -->
+                      <div class="justify-content-center"  data-coreui-read-only="true" data-coreui-size="sm"  data-coreui-toggle="rating"  data-coreui-value="<%= Number(product.averageRating) %>"> </div>
+                      
+                      
+
+                      <% if( !isNaN(Number(product.averageRating))){ %>
+                        <small>(<%= Number(product.averageRating).toFixed(1) %>) </small>
+                     <% } %>
+                     
+                    
                     </div>
+
                     <div class="d-flex justify-content-center align-items-center gap-2">
                       <del>₹<%=product.regularPrice %></del>
-                      <span class="text-dark fw-semibold">₹ <%=product.sellingPrice %></span>
+                      <span class="text-dark fw-semibold">₹ <%=product.sellingPrice %> </span>
                       <!-- <span class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">10% OFF</span> -->
                     </div>
                     <div class="button-area p-3 pt-0">
@@ -425,6 +430,10 @@
 
 
     <%- include('../partials/userFooter.ejs')  %>
+
+    <!-- rating -->
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.6.0/dist/js/coreui.bundle.min.js" integrity="sha384-mLGa1g62d9QzDXVGjvdUasvKUjkIoq7kjvKJsQifgQdr9x+4Ge3SZuGRTHYwvAl/" crossorigin="anonymous"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/userjs/home.js"></script>
 

@@ -34,8 +34,6 @@ const orderStatusUpdate = async (req, res) => {
                 { $set: { 'orderItems.$.status': status } });
         }
 
-        console.log(response);
-
         res.redirect('/admin/orders');
 
     } catch (error) {

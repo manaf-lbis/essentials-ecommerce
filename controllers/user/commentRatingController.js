@@ -1,4 +1,7 @@
 const Comments = require('../../models/commentsSchema');
+const Order = require('../../models/orderSchema');
+const Product = require('../../models/productSchema');
+const mongoose = require('mongoose')
 
 // getting user id from session
 function getUserIdFromSession(req) {
@@ -35,17 +38,52 @@ const addComment = async (req, res) => {
     }
 };
 
-const addrating =(req,res)=>{
+
+
+const addrating = async (req,res)=>{
     try {
+
+        const { productId, comment,orderId,rating } = req.body;
+
+        const userId = getUserIdFromSession(req);
+
+
+        //checking any comment exist
+        const commentExixt = await Comments.findOne({ productId });
+
+        if (commentExixt) {
+            await Comments.updateOne({ productId }, { $push: { comments: { userId, comment ,rating} } })
+
+        } else {
+            const newComment = new Comments({
+                productId,
+                comments: [{userId,comment,rating},],
+            });
+
+            await newComment.save();
+        }
+
+        // rating updae on orderside
+        await Order.updateOne({orderId,"orderItems.productId":productId} ,{$set:{'orderItems.$.rating':Number(rating),'orderItems.$.isRated':true}})
+
+        //calsulating avg rating of the product
+         const averageRating =  await Comments.aggregate([
+            {$match:{productId: new mongoose.Types.ObjectId(productId)}},
+            {$unwind:'$comments'},
+            {$group:{_id:'$productId' ,averageRating:{$avg:'$comments.rating'} }}
+           ])
+
+            await Product.updateOne({_id:productId},{$set:{averageRating:averageRating[0].averageRating}})
+
+    
+        res.status(200).json({message:"sucessfull"})
         
 
 
-        
     } catch (error) {
 
-        console.log(error);
-        
-        
+        console.log(error); 
+        res.ststus(500).json({message:'internal server error'})
     }
 
 }
@@ -53,4 +91,5 @@ const addrating =(req,res)=>{
 
 module.exports = {
     addComment,
+    addrating,
 };

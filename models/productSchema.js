@@ -58,6 +58,11 @@ const producSchema = new Schema({
     enum: ['Available', 'Out of Stock'],
     default:'Available'
   },
+  averageRating:{
+    type:Number,
+    min:[0],
+    max:[5]
+  }
 });
 
 const Product = mongoose.model('Product', producSchema);

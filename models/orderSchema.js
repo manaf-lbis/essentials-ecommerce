@@ -42,6 +42,11 @@ const orderSchema = new Schema({
       isRated:{
         type:Boolean,
         default:false
+      },
+      rating:{
+        type:Number,
+        min:[0],
+        max:[5]
       }
     },
   ],

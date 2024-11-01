@@ -6,6 +6,8 @@ const session = require('express-session');
 const passport = require('../../config/passport');
 const Product = require('../../models/productSchema');
 const Category = require('../../models/categorySchema');
+const Comments = require('../../models/commentsSchema')
+const mongoose = require('mongoose');
 
 // <<<====Signup page rendering===>>>
 const loadSignupPage = (req, res) => {
@@ -34,6 +36,7 @@ const loadHome = async (req, res) => {
     const category = await Category.find({ isBlocked: false });
 
     return res.render('user/home', { products, category });
+
   } catch (error) {
     console.log(error);
   }
